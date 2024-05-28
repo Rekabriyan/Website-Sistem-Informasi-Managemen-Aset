@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              Int     @id @default(autoincrement())
+  username        String  @unique
+  password        String
+  role            String
+  lokasi_pengguna String
+  jabatan         String
+}
+
+model Asset {
+  id                        Int     @id @default(autoincrement())
+  kode_asset                String  @unique
+  nama_asset                String
+  jenis_asset               String
+  jumlah_asset              Int
+  status_ketersediaan       String
+  lokasi_asset              String
+  tanggal_pembelian         DateTime
+  asal_usul_perolehan       String
+  keterangan                String
+}
+
+model req_asset {
+  id                        Int     @id @default(autoincrement())
+  no_permintaan             String  
+  user_request              Int
+  jenis_permintaan          String
+  durasi                    Int
+  status_permintaan         String
+  id_asset                  Int
+  tanggal_permintaan        DateTime
+}
+
+model history_asset {
+  id                        Int     @id @default(autoincrement())
+  nama_penerima             String  
+  user_id                   Int
+  lokasi_lama               String
+  lokasi_baru               String
+  id_asset                  Int
+  tanggal                   DateTime
+}
+
+model peminjaman_asset {
+  id                        Int     @id @default(autoincrement())
+  mutasi_id                 String  
+  user_id                   Int
+  lokasi_departement        String
+  id_asset                  Int
+  tanggal                   DateTime
+}
+
+model mutasi_asset {
+  id                        Int     @id @default(autoincrement())
+  user_id                   Int
+  lokasi_departement        String
+  id_asset                  Int
+  tanggal                   DateTime
+}
+
