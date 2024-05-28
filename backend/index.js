@@ -1,13 +1,16 @@
-// index.js
-const express = require('express');
+import express from "express";
+import userRouter from "./routes/userRoute.js";
+import cors from "cors";
+
 const app = express();
+const port = 5005;
 
-const port = 3000;
+app.use(express.json());
+app.use(cors());
 
-app.get('/', (req, res) => {
-  res.send('Hello, World!');
-});
+// Use the user route
+app.use(userRouter);
 
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}/`);
+  console.log(`Server is running on port ${port}`);
 });
