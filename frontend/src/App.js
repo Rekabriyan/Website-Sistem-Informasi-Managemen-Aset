@@ -11,6 +11,7 @@ function App() {
         <Routes>
           <Route path="/report" element={<Report />} />
           <Route path="/login" element={<LoginForm />} />
+          <Route path="/" element={<LoginForm />} />
         </Routes>
       </Router>
     </div>
