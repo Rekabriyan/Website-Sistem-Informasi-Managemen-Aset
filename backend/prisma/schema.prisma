@@ -79,6 +79,6 @@ model laporan {
   nama_asset                String
   jumlah_asset              Int
   jenis_asset               String
-  nomor_register String     String
+  nomor_register            String
   jumlah_harga              Int    
 }
