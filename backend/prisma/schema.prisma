@@ -73,3 +73,12 @@ model mutasi_asset {
   tanggal                   DateTime
 }
 
+model laporan {
+  id                        Int     @id @default(autoincrement())
+  kode_asset                Int
+  nama_asset                String
+  jumlah_asset              Int
+  jenis_asset               String
+  nomor_register String     String
+  jumlah_harga              Int    
+}
