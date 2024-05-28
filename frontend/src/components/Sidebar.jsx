@@ -23,7 +23,7 @@ const Sidebar = () => {
         </a>
         <hr className="sidebar-divider my-0" />
         <li className="nav-item">
-          <a className="nav-link" href="/home">
+          <a className="nav-link" href="/report">
             <i className="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span>
           </a>
@@ -40,7 +40,7 @@ const Sidebar = () => {
             aria-controls="collapseTwo"
           >
             <i className="fas fa-fw fa-wallet"></i>
-            <span>Wallet</span>
+            <span>Asset</span>
           </a>
           <div
             id="collapseTwo"
@@ -49,11 +49,11 @@ const Sidebar = () => {
             data-parent="#accordionSidebar"
           >
             <div className="bg-white py-2 collapse-inner rounded">
-              <a className="collapse-item" href="/wallet">
-                View
+              <a className="collapse-item" href="/assets">
+                Lihat Aset
               </a>
-              <a className="collapse-item" href="/newWallet">
-                Add
+              <a className="collapse-item" href="/newAsset">
+                Tambah Aset
               </a>
             </div>
           </div>
@@ -61,7 +61,7 @@ const Sidebar = () => {
         <li className="nav-item">
           <a className="nav-link" href="/budgeting">
             <i className="fas fa-fw fa-tachometer-alt"></i>
-            <span>Budgeting</span>
+            <span>Permintaan</span>
           </a>
         </li>
         <li className="nav-item">
@@ -96,7 +96,7 @@ const Sidebar = () => {
         <li className="nav-item">
           <Link className="nav-link" to="/recap">
             <i className="fas fa-fw fa-receipt"></i>
-            <span>Recap</span>
+            <span>Rekapitulasi</span>
           </Link>
         </li>
         <hr className="sidebar-divider d-md-block" />

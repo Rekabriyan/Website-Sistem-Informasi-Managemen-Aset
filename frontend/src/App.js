@@ -1,8 +1,9 @@
-// import LoginForm from './components/LoginForm/LoginForm';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Report from './pages/Report';
 import LoginForm from './pages/LoginForm';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-
+import AsetList from './pages/GeneralAffair/AsetList'; // Pastikan path ini benar
+import AddAset from './pages/GeneralAffair/addAset';
 
 function App() {
   return (
@@ -12,6 +13,8 @@ function App() {
           <Route path="/report" element={<Report />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/" element={<LoginForm />} />
+          <Route path="/assets" element={<AsetList />} />
+          <Route path="/newAsset" element={<AddAset/>} />
         </Routes>
       </Router>
     </div>
