@@ -3,9 +3,9 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 
+
 //insert asset
 export const insertAsset = async (req, res) => {
-
     const isGA = req.body.role === 'GA' ? true : false;
     if(!isGA) return res.status(401).json({ msg: 'Unauthorized' });
 
@@ -16,10 +16,10 @@ export const insertAsset = async (req, res) => {
                 nama_asset: req.body.nama_asset,
                 jenis_asset: req.body.jenis_asset,
                 jumlah_asset: req.body.jumlah_asset,
-                status_asset: req.body.status_asset,
-                keterangan_asset: req.body.keterangan_asset,
+                status_ketersediaan: req.body.status_ketersediaan,
+                keterangan: req.body.keterangan_asset,
                 lokasi_asset: req.body.lokasi_asset,
-                tanggal_pembelian: req.body.tanggal_pembelian,
+                tanggal_pembelian: new Date(req.body.tanggal_pembelian).toISOString(),
                 asal_usul_perolehan: req.body.asal_usul_perolehan,
             },
         });
@@ -61,7 +61,7 @@ export const deleteAsset = async (req, res) => {
     try {
         const response = await prisma.asset.delete({
             where: {
-                nama_asset: req.params.nama_asset,
+                kode_asset: req.params.kode_asset,
             },
         });
         res.status(200).json({ msg: 'Asset deleted', data: response });

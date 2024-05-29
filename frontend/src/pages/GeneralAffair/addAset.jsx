@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from "../../components/Navbar";
 import Sidebar from "../../components/Sidebar";
 import Swal from 'sweetalert2';
+import Cookies from 'js-cookie';
 
 const AddAset = () => {
   const [assets, setAssets] = useState([]);
@@ -16,6 +17,8 @@ const AddAset = () => {
   const [tanggalPembelian, setTanggalPembelian] = useState('');
   const [asalUsulPerolehan, setAsalUsulPerolehan] = useState('');
   const [keteranganAsset, setKeteranganAsset] = useState('');
+
+  const role = Cookies.get('role');
 
   const navigate = useNavigate();
 
@@ -39,12 +42,13 @@ const AddAset = () => {
         kode_asset: kodeAsset,
         nama_asset: namaAsset,
         jenis_asset: jenisAsset,
-        jumlah_asset: jumlahAsset,
-        status_asset: statusAsset,
+        jumlah_asset: parseInt(jumlahAsset),
+        status_ketersediaan: statusAsset,
         lokasi_asset: lokasiAsset,
         tanggal_pembelian: tanggalPembelian,
         asal_usul_perolehan: asalUsulPerolehan,
         keterangan_asset: keteranganAsset,
+        role: role
       });
       Swal.fire('Success', 'Asset added successfully!', 'success');
       fetchAssets();
@@ -58,13 +62,14 @@ const AddAset = () => {
       setAsalUsulPerolehan('');
       setKeteranganAsset('');
     } catch (error) {
+      console.log(error);
       Swal.fire('Error', 'There was an error adding the asset!', 'error');
     }
   };
 
   const handleDelete = async (namaAsset) => {
     try {
-      await axios.delete(`http://localhost:5005/assets/${namaAsset}`);
+      await axios.delete(`http://localhost:5005/assets/${namaAsset}`, { data: { role: role } });
       Swal.fire('Success', 'Asset deleted successfully!', 'success');
       fetchAssets();
     } catch (error) {
@@ -143,13 +148,13 @@ const AddAset = () => {
                       <td>{asset.nama_asset}</td>
                       <td>{asset.jenis_asset}</td>
                       <td>{asset.jumlah_asset}</td>
-                      <td>{asset.status_asset}</td>
+                      <td>{asset.status_ketersediaan}</td>
                       <td>{asset.lokasi_asset}</td>
                       <td>{new Date(asset.tanggal_pembelian).toLocaleDateString()}</td>
                       <td>{asset.asal_usul_perolehan}</td>
                       <td>{asset.keterangan_asset}</td>
                       <td>
-                        <button className="btn btn-danger btn-sm" onClick={() => handleDelete(asset.nama_asset)}>Delete</button>
+                        <button className="btn btn-danger btn-sm" onClick={() => handleDelete(asset.kode_asset)}>Delete</button>
                       </td>
                     </tr>
                   ))}

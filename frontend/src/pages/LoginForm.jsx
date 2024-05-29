@@ -29,8 +29,12 @@ const LoginForm = () => {
     try {
       const response = await axios.post(`http://localhost:5005/users/login`, formData, { validateStatus: false }); // Replace with your API endpoint
       if (response.status === 200) {
-        Cookies.set('username', response.data.username, { expires: 1 }); // Save username to cookie with expiry of 1 day
-        navigate('/report'); // Navigate to home page
+        console.log(response.data);
+        Cookies.set('username', response.data.username, { expires: 1 });
+        Cookies.set('role', response.data.role, { expires: 1 }); 
+
+        navigate('/report');
+
       } else if (response.status === 400) {
         Swal.fire({
           icon: 'error',
