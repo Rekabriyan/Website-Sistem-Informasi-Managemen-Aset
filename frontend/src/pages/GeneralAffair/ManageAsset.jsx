@@ -6,7 +6,7 @@ import Sidebar from "../../components/Sidebar";
 import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
 
-const AddAset = () => {
+const ManageAsset = () => {
   const [assets, setAssets] = useState([]);
   const [kodeAsset, setKodeAsset] = useState('');
   const [namaAsset, setNamaAsset] = useState('');
@@ -168,4 +168,4 @@ const AddAset = () => {
   );
 };
 
-export default AddAset;
+export default ManageAsset;

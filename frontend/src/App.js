@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Report from './pages/Report';
 import LoginForm from './pages/LoginForm';
 import AsetList from './pages/GeneralAffair/AsetList'; // Pastikan path ini benar
-import AddAset from './pages/GeneralAffair/addAset';
+import ManageAsset from './pages/GeneralAffair/ManageAsset';
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/" element={<LoginForm />} />
           <Route path="/assets" element={<AsetList />} />
-          <Route path="/newAsset" element={<AddAset/>} />
+          <Route path="/manageAsset" element={<ManageAsset/>} />
         </Routes>
       </Router>
     </div>

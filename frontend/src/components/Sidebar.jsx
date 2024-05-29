@@ -52,8 +52,8 @@ const Sidebar = () => {
               <a className="collapse-item" href="/assets">
                 Lihat Aset
               </a>
-              <a className="collapse-item" href="/newAsset">
-                Tambah Aset
+              <a className="collapse-item" href="/manageAsset">
+                Manage Aset
               </a>
             </div>
           </div>
