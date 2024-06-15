@@ -26,8 +26,12 @@ model Asset {
   id                        Int     @id @default(autoincrement())
   kode_asset                String  @unique
   nama_asset                String
+  aspek_legal               String
   jenis_asset               String
   jumlah_asset              Int
+  spesifikasi_asset         String
+  harga_asset               Float
+  kondisi_asset             String
   status_ketersediaan       String
   lokasi_asset              String
   tanggal_pembelian         DateTime
