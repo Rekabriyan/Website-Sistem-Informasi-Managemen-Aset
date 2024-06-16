@@ -18,7 +18,7 @@ model User {
   username        String  @unique
   password        String
   role            String
-  lokasi_pengguna String
+  divisi          String
   jabatan         String
 }
 
@@ -29,60 +29,36 @@ model Asset {
   aspek_legal               String
   jenis_asset               String
   jumlah_asset              Int
-  spesifikasi_asset         String
-  harga_asset               Float
+  spesifikasi               String
+  harga                     Int
   kondisi_asset             String
   status_ketersediaan       String
-  lokasi_asset              String
+  lokasi                    String
   tanggal_pembelian         DateTime
-  asal_usul_perolehan       String
+  asal_usul_pembelian       String
   keterangan                String
+  kode_register             Int
+  merk                      String
+  pengguna_asset            String
 }
 
-model req_asset {
+model permintaan {
   id                        Int     @id @default(autoincrement())
-  no_permintaan             String  
-  user_request              Int
-  jenis_permintaan          String
-  durasi                    Int
-  status_permintaan         String
+  id_user                   Int
   id_asset                  Int
+  tipe_permintaan           String
+  status                    String
   tanggal_permintaan        DateTime
-}
-
-model history_asset {
-  id                        Int     @id @default(autoincrement())
-  nama_penerima             String  
-  user_id                   Int
-  lokasi_lama               String
-  lokasi_baru               String
-  id_asset                  Int
-  tanggal                   DateTime
-}
-
-model peminjaman_asset {
-  id                        Int     @id @default(autoincrement())
-  mutasi_id                 String  
-  user_id                   Int
-  lokasi_departement        String
-  id_asset                  Int
-  tanggal                   DateTime
-}
-
-model mutasi_asset {
-  id                        Int     @id @default(autoincrement())
-  user_id                   Int
-  lokasi_departement        String
-  id_asset                  Int
-  tanggal                   DateTime
+  keterangan                String
+  nama_calon_pengguna       String
+  calon_lokasi_pengguna     String  
 }
 
 model laporan {
   id                        Int     @id @default(autoincrement())
-  kode_asset                Int
-  nama_asset                String
-  jumlah_asset              Int
-  jenis_asset               String
-  nomor_register            String
-  jumlah_harga              Int    
+  jenis_laporan             String
+  kategori_asset            String
+  tanggal_laporan           DateTime
+  id_user                   Int
+  file_laporan              Int
 }
