@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 //insert asset
 export const insertAsset = async (req, res) => {
     const isGA = req.body.role === 'GA' ? true : false;
-    if(!isGA) return res.status(401).json({ msg: 'Unauthorized' });
+    // if(!isGA) return res.status(401).json({ msg: 'Unauthorized' });
 
     try {
         const response = await prisma.asset.create({
@@ -15,12 +15,16 @@ export const insertAsset = async (req, res) => {
                 kode_asset: req.body.kode_asset,
                 nama_asset: req.body.nama_asset,
                 jenis_asset: req.body.jenis_asset,
-                jumlah_asset: req.body.jumlah_asset,
-                status_ketersediaan: req.body.status_ketersediaan,
-                keterangan: req.body.keterangan_asset,
-                lokasi_asset: req.body.lokasi_asset,
+                aspek_legal: req.body.aspek_legal, 
+                spesifikasi_asset: req.body.spesifikasi_asset,
+                harga_asset: req.body.harga_asset,
+                jumlah_asset: req.body.jumlah_asset, //default 1
+                status_ketersediaan: req.body.status_ketersediaan, //langsung tersedia
+                keterangan: req.body.keterangan,
+                lokasi_asset: req.body.lokasi_asset, //default GA
                 tanggal_pembelian: new Date(req.body.tanggal_pembelian).toISOString(),
-                asal_usul_perolehan: req.body.asal_usul_perolehan,
+                asal_usul_perolehan: req.body.asal_usul_perolehan, //Riwayat Perolehan
+                kondisi_asset: req.body.kondisi_asset, //default baik
             },
         });
         res.status(201).json({ msg: 'Asset created', data: response });
@@ -93,6 +97,20 @@ export const updateAsset = async (req, res) => {
             },
         });
         res.status(200).json({ msg: 'Asset updated', data: response });
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
+};
+
+//get all asset by jenis
+export const getAssetbyjenis = async (req, res) => {
+    try {
+        const response = await prisma.asset.findMany({
+            where: {
+                jenis_asset: req.params.jenis_asset,
+            },
+        });
+        res.status(200).json({ data: response });
     } catch (error) {
         res.status(500).json({ msg: error.message });
     }

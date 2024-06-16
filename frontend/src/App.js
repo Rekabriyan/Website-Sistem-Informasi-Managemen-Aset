@@ -4,8 +4,6 @@ import Report from './pages/Report';
 import LoginForm from './pages/LoginForm';
 import AsetList from './pages/GeneralAffair/AsetList'; // Pastikan path ini benar
 import ManageAsset from './pages/GeneralAffair/ManageAsset';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 
 function App() {
   return (
@@ -17,6 +15,7 @@ function App() {
           <Route path="/" element={<LoginForm />} />
           <Route path="/assets" element={<AsetList />} />
           <Route path="/manageAsset" element={<ManageAsset/>} />
+          <Route path="/pdf" element={<ReactPdf />} />
         </Routes>
       </Router>
     </div>
