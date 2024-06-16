@@ -14,17 +14,19 @@ datasource db {
 }
 
 model User {
-  id              Int     @id @default(autoincrement())
-  username        String  @unique
+  id              Int        @id @default(autoincrement())
+  username        String     @unique
   password        String
   role            String
   divisi          String
   jabatan         String
+  permintaan      permintaan[] // Relasi dengan permintaan
+  laporan         laporan[]    // Relasi dengan laporan
 }
 
 model Asset {
-  id                        Int     @id @default(autoincrement())
-  kode_asset                String  @unique
+  id                        Int        @id @default(autoincrement())
+  kode_asset                String     @unique
   nama_asset                String
   aspek_legal               String
   jenis_asset               String
@@ -40,10 +42,11 @@ model Asset {
   kode_register             Int
   merk                      String
   pengguna_asset            String
+  permintaan                permintaan[] // Relasi dengan permintaan
 }
 
 model permintaan {
-  id                        Int     @id @default(autoincrement())
+  id                        Int        @id @default(autoincrement())
   id_user                   Int
   id_asset                  Int
   tipe_permintaan           String
@@ -52,13 +55,25 @@ model permintaan {
   keterangan                String
   nama_calon_pengguna       String
   calon_lokasi_pengguna     String  
+  ekspedisi                 String?
+  estimasi                  Int?
+  lokasi_mutasi             String?
+  approved_by               String?
+  user                      User       @relation(fields: [id_user], references: [id])  // FK ke User
+  asset                     Asset      @relation(fields: [id_asset], references: [id]) // FK ke Asset
+
+  @@index([id_user])
+  @@index([id_asset])
 }
 
 model laporan {
-  id                        Int     @id @default(autoincrement())
+  id                        Int        @id @default(autoincrement())
   jenis_laporan             String
   kategori_asset            String
   tanggal_laporan           DateTime
   id_user                   Int
   file_laporan              Int
+  user                      User       @relation(fields: [id_user], references: [id])  // FK ke User
+
+  @@index([id_user])
 }
