@@ -4,6 +4,8 @@ import Report from './pages/Report';
 import LoginForm from './pages/LoginForm';
 import AsetList from './pages/GeneralAffair/AsetList'; // Pastikan path ini benar
 import ManageAsset from './pages/GeneralAffair/ManageAsset';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
   return (
