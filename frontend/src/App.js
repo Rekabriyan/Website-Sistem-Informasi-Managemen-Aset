@@ -4,6 +4,8 @@ import Report from './pages/Report';
 import LoginForm from './pages/LoginForm';
 import AsetList from './pages/GeneralAffair/AsetList'; // Pastikan path ini benar
 import ManageAsset from './pages/GeneralAffair/ManageAsset';
+import ReactPdf from './pages/ReactPDF';
+import PencatatanAset from './pages/GeneralAffair/PencatatanAset'
 
 function App() {
   return (
@@ -16,6 +18,7 @@ function App() {
           <Route path="/assets" element={<AsetList />} />
           <Route path="/manageAsset" element={<ManageAsset/>} />
           <Route path="/pdf" element={<ReactPdf />} />
+          <Route path="/pencatatanAset" element={<PencatatanAset/>} />
         </Routes>
       </Router>
     </div>

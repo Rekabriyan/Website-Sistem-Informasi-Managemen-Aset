@@ -6,6 +6,7 @@ import historyRouter from "./routes/historyRoute.js";
 import peminjamanRouter from "./routes/peminjamanRoute.js";
 import mutasiRouter from "./routes/mutasiRoute.js";
 import laporanRouter from "./routes/laporanRoute.js";
+import permintaanRouter from "./routes/permintaanRoute.js";
 
 import cors from "cors";
 
@@ -23,6 +24,7 @@ app.use(historyRouter);
 app.use(peminjamanRouter);
 app.use(mutasiRouter);
 app.use(laporanRouter);
+app.use(permintaanRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

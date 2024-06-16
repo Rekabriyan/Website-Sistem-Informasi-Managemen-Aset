@@ -146,15 +146,6 @@ const AssetList = () => {
         });
     }
   };
-  
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
 
   return (
     <>
@@ -164,10 +155,22 @@ const AssetList = () => {
           <div id="content">
             <Navbar />
             <div className="container-fluid mt-4">
-              <h1 className="mb-4">Daftar Aset</h1>
+            <h1 className="mb-4">Daftar Aset</h1>
+              <div className="d-flex justify-content-between">
               <Button variant="primary" onClick={handleShow}>
                 Tambah Data Aset
               </Button>
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Cari
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                  </ul>
+                </div>
+              </div>
               <div className="table-responsive mt-3">
                 <table className="table table-striped table-bordered">
                   <thead className="thead-dark">

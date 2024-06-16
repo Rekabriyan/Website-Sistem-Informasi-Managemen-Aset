@@ -11,12 +11,11 @@ export const insertAsset = async (req, res) => {
     try {
         const response = await prisma.asset.create({
             data: {
-
                 kode_asset: req.body.kode,
                 nama_asset: req.body.nama,
                 jenis_asset: req.body.jenis,
                 aspek_legal: req.body.aspek_legal, 
-                spesifikasi_asset: req.body.spesifikasi,
+                spesifikasi: req.body.spesifikasi,
                 harga: req.body.harga,
                 jumlah_asset: req.body.jumlah, //default 1
                 status_ketersediaan: req.body.status_ketersediaan, //langsung tersedia
@@ -92,7 +91,7 @@ export const updateAsset = async (req, res) => {
                 nama_asset: req.body.nama,
                 jenis_asset: req.body.jenis,
                 aspek_legal: req.body.aspek_legal, 
-                spesifikasi_asset: req.body.spesifikasi,
+                spesifikasi: req.body.spesifikasi,
                 harga: req.body.harga,
                 jumlah_asset: req.body.jumlah, //default 1
                 status_ketersediaan: req.body.status_ketersediaan, //langsung tersedia

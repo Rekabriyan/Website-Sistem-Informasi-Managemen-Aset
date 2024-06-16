@@ -5,3 +5,8 @@
 .custom-icon-color {
     color: white;
 }
+
+.custom-hover:hover {
+  background-color: #e57300 !important;
+  color: white !important;
+}
