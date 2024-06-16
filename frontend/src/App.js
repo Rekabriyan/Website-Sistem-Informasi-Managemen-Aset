@@ -4,7 +4,6 @@ import Report from './pages/Report';
 import LoginForm from './pages/LoginForm';
 import AsetList from './pages/GeneralAffair/AsetList'; // Pastikan path ini benar
 import ManageAsset from './pages/GeneralAffair/ManageAsset';
-import ReactPdf from './pages/ReactPDF';
 
 function App() {
   return (

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "../components/Sidebar";
-import Navbar from "../components/Navbar";
+import Sidebar from "../components/DashboardGA/Sidebar";
+import Navbar from "../components/DashboardGA/Navbar";
 import Table from "../components/ExamplesTable";
 import axios from "axios";
 import Swal from "sweetalert2";

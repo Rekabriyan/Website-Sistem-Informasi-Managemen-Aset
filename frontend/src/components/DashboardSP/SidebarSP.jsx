@@ -40,7 +40,7 @@ const Sidebar = () => {
             aria-controls="collapseTwo"
           >
             <i className="fas fa-fw fa-wallet"></i>
-            <span>Asset</span>
+            <span>ListAsset</span>
           </a>
           <div
             id="collapseTwo"

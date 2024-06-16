@@ -1,11 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from "../../components/Navbar";
-import Sidebar from '../../components/Sidebar';
+import Navbar from "../../components/DashboardGA/Navbar";
+import Sidebar from '../../components/DashboardGA/Sidebar';
+import { Modal, Button, Form } from 'react-bootstrap';
 
 const AssetList = () => {
   const [assets, setAssets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [show, setShow] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [formData, setFormData] = useState({
+    kode_asset: '',
+    nama_asset: '',
+    jenis_asset: '',
+    jumlah_asset: '',
+    status_asset: '',
+    lokasi_asset: '',
+    tanggal_pembelian: '',
+    asal_usul_perolehan: '',
+    keterangan_asset: ''
+  });
 
   useEffect(() => {
     fetch('http://localhost:5005/assets')
@@ -25,6 +39,77 @@ const AssetList = () => {
       });
   }, []);
 
+  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetch('http://localhost:5005/assets', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setAssets([...assets, data]);
+        handleClose();
+      })
+      .catch((error) => {
+        setError(error);
+      });
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSearch = () => {
+    if (searchQuery.trim() !== '') {
+      fetch(`http://localhost:5005/assets?search=${searchQuery}`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setAssets(data.data);
+        })
+        .catch((error) => {
+          setError(error);
+        });
+    } else {
+      fetch('http://localhost:5005/assets')
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setAssets(data.data);
+        })
+        .catch((error) => {
+          setError(error);
+        });
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -42,7 +127,19 @@ const AssetList = () => {
             <Navbar />
             <div className="container-fluid mt-4">
               <h1 className="mb-4">List of Assets</h1>
-              <div className="table-responsive">
+              <div className="d-flex mb-3">
+                <Form.Control
+                  type="text"
+                  placeholder="Search assets"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  className="mr-2"
+                />
+                <Button variant="primary" onClick={handleSearch}>
+                  Search
+                </Button>
+              </div>
+              <div className="table-responsive mt-3">
                 <table className="table table-striped table-bordered">
                   <thead className="thead-dark">
                     <tr>
@@ -78,6 +175,109 @@ const AssetList = () => {
           </div>
         </div>
       </div>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add New Asset</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="kode_asset">
+              <Form.Label>Kode Asset</Form.Label>
+              <Form.Control
+                type="text"
+                name="kode_asset"
+                value={formData.kode_asset}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="nama_asset">
+              <Form.Label>Nama Asset</Form.Label>
+              <Form.Control
+                type="text"
+                name="nama_asset"
+                value={formData.nama_asset}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="jenis_asset">
+              <Form.Label>Jenis Asset</Form.Label>
+              <Form.Control
+                type="text"
+                name="jenis_asset"
+                value={formData.jenis_asset}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="jumlah_asset">
+              <Form.Label>Jumlah Asset</Form.Label>
+              <Form.Control
+                type="number"
+                name="jumlah_asset"
+                value={formData.jumlah_asset}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="status_asset">
+              <Form.Label>Status Asset</Form.Label>
+              <Form.Control
+                type="text"
+                name="status_asset"
+                value={formData.status_asset}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="lokasi_asset">
+              <Form.Label>Lokasi Asset</Form.Label>
+              <Form.Control
+                type="text"
+                name="lokasi_asset"
+                value={formData.lokasi_asset}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="tanggal_pembelian">
+              <Form.Label>Tanggal Pembelian</Form.Label>
+              <Form.Control
+                type="date"
+                name="tanggal_pembelian"
+                value={formData.tanggal_pembelian}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="asal_usul_perolehan">
+              <Form.Label>Asal Usul Perolehan</Form.Label>
+              <Form.Control
+                type="text"
+                name="asal_usul_perolehan"
+                value={formData.asal_usul_perolehan}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="keterangan_asset">
+              <Form.Label>Keterangan</Form.Label>
+              <Form.Control
+                type="text"
+                name="keterangan_asset"
+                value={formData.keterangan_asset}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              Save Changes
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

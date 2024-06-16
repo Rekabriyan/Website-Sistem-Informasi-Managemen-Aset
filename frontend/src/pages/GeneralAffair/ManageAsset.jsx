@@ -1,171 +1,355 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import Navbar from "../../components/Navbar";
-import Sidebar from "../../components/Sidebar";
-import Swal from 'sweetalert2';
-import Cookies from 'js-cookie';
+import Navbar from "../../components/DashboardGA/Navbar";
+import Sidebar from '../../components/DashboardGA/Sidebar';
+import { Modal, Button, Form } from 'react-bootstrap';
 
-const ManageAsset = () => {
+const AssetList = () => {
   const [assets, setAssets] = useState([]);
-  const [kodeAsset, setKodeAsset] = useState('');
-  const [namaAsset, setNamaAsset] = useState('');
-  const [jenisAsset, setJenisAsset] = useState('');
-  const [jumlahAsset, setJumlahAsset] = useState('');
-  const [statusAsset, setStatusAsset] = useState('');
-  const [lokasiAsset, setLokasiAsset] = useState('');
-  const [tanggalPembelian, setTanggalPembelian] = useState('');
-  const [asalUsulPerolehan, setAsalUsulPerolehan] = useState('');
-  const [keteranganAsset, setKeteranganAsset] = useState('');
-
-  const role = Cookies.get('role');
-
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [show, setShow] = useState(false);
+  const [formData, setFormData] = useState({
+    kode_asset: '',
+    nama_asset: '',
+    jenis_asset: '',
+    aspek_legal: '',
+    spesifikasi: '',
+    harga: '',
+    tahun_perolehan: '',
+    riwayat_perolehan: '',
+    kondisi: '',
+    nama_pengguna: '',
+    lokasi_pengguna_aset: '',
+    keterangan: '',
+  });
+  const [editingAsset, setEditingAsset] = useState(null);
 
   useEffect(() => {
-    fetchAssets();
+    fetch('http://localhost:5005/assets')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setAssets(data.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setError(error);
+        setLoading(false);
+      });
   }, []);
 
-  const fetchAssets = async () => {
-    try {
-      const response = await axios.get('http://localhost:5005/assets');
-      setAssets(response.data.data);
-    } catch (error) {
-      console.error("There was an error fetching the assets!", error);
-    }
+  const handleShow = () => setShow(true);
+  const handleClose = () => {
+    setShow(false);
+    setEditingAsset(null); // Reset editingAsset state
+    setFormData({ // Reset formData state
+      kode_asset: '',
+      nama_asset: '',
+      jenis_asset: '',
+      aspek_legal: '',
+      spesifikasi: '',
+      harga: '',
+      tahun_perolehan: '',
+      riwayat_perolehan: '',
+      kondisi: '',
+      nama_pengguna: '',
+      lokasi_pengguna_aset: '',
+      keterangan: ''
+    });
   };
 
-  const handleSubmit = async (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      await axios.post('http://localhost:5005/assets', {
-        kode_asset: kodeAsset,
-        nama_asset: namaAsset,
-        jenis_asset: jenisAsset,
-        jumlah_asset: parseInt(jumlahAsset),
-        status_ketersediaan: statusAsset,
-        lokasi_asset: lokasiAsset,
-        tanggal_pembelian: tanggalPembelian,
-        asal_usul_perolehan: asalUsulPerolehan,
-        keterangan_asset: keteranganAsset,
-        role: role
-      });
-      Swal.fire('Success', 'Asset added successfully!', 'success');
-      fetchAssets();
-      setKodeAsset('');
-      setNamaAsset('');
-      setJenisAsset('');
-      setJumlahAsset('');
-      setStatusAsset('');
-      setLokasiAsset('');
-      setTanggalPembelian('');
-      setAsalUsulPerolehan('');
-      setKeteranganAsset('');
-    } catch (error) {
-      console.log(error);
-      Swal.fire('Error', 'There was an error adding the asset!', 'error');
+    if (editingAsset) {
+      // Jika sedang dalam mode edit, lakukan update asset
+      fetch(`http://localhost:5005/assets/${editingAsset.kode_asset}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // Update data asset yang diubah
+          setAssets(assets.map(asset => asset.kode_asset === editingAsset.kode_asset ? data : asset));
+          handleClose();
+        })
+        .catch((error) => {
+          setError(error);
+        });
+    } else {
+      // Jika sedang dalam mode tambah, tambahkan asset baru
+      fetch('http://localhost:5005/assets', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setAssets([...assets, data]);
+          handleClose();
+        })
+        .catch((error) => {
+          setError(error);
+        });
     }
   };
 
-  const handleDelete = async (namaAsset) => {
-    try {
-      await axios.delete(`http://localhost:5005/assets/${namaAsset}`, { data: { role: role } });
-      Swal.fire('Success', 'Asset deleted successfully!', 'success');
-      fetchAssets();
-    } catch (error) {
-      Swal.fire('Error', 'There was an error deleting the asset!', 'error');
+  const handleEdit = (asset) => {
+    setEditingAsset(asset);
+    setFormData(asset); // Isi form dengan data asset yang akan diubah
+    handleShow(); // Tampilkan formulir pop-up
+  };
+
+  const handleDelete = (kodeAsset) => {
+    // Tampilkan pesan konfirmasi dengan pop-up
+    const confirmed = window.confirm("Are you sure you want to delete this asset?");
+    if (confirmed) {
+      // Handle delete logic here
+      fetch(`http://localhost:5005/assets/${kodeAsset}`, {
+        method: 'DELETE',
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          // Remove the deleted asset from the state
+          setAssets(assets.filter(asset => asset.kode_asset !== kodeAsset));
+        })
+        .catch((error) => {
+          setError(error);
+        });
     }
   };
+  
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <>
-      <div id="wrapper">
+      <div id="wrapper" className="d-flex">
         <Sidebar />
-        <div id="content-wrapper" className="d-flex flex-column">
+        <div id="content-wrapper" className="d-flex flex-column w-100">
           <div id="content">
             <Navbar />
             <div className="container-fluid mt-4">
-              <h1 className="mb-4">Manage Assets</h1>
-              <form onSubmit={handleSubmit} className="mb-4">
-                <div className="form-group">
-                  <label>Kode Asset</label>
-                  <input type="text" className="form-control" value={kodeAsset} onChange={(e) => setKodeAsset(e.target.value)} required />
-                </div>
-                <div className="form-group">
-                  <label>Nama Asset</label>
-                  <input type="text" className="form-control" value={namaAsset} onChange={(e) => setNamaAsset(e.target.value)} required />
-                </div>
-                <div className="form-group">
-                  <label>Jenis Asset</label>
-                  <input type="text" className="form-control" value={jenisAsset} onChange={(e) => setJenisAsset(e.target.value)} required />
-                </div>
-                <div className="form-group">
-                  <label>Jumlah Asset</label>
-                  <input type="number" className="form-control" value={jumlahAsset} onChange={(e) => setJumlahAsset(e.target.value)} required />
-                </div>
-                <div className="form-group">
-                  <label>Status Asset</label>
-                  <input type="text" className="form-control" value={statusAsset} onChange={(e) => setStatusAsset(e.target.value)} required />
-                </div>
-                <div className="form-group">
-                  <label>Lokasi Asset</label>
-                  <input type="text" className="form-control" value={lokasiAsset} onChange={(e) => setLokasiAsset(e.target.value)} required />
-                </div>
-                <div className="form-group">
-                  <label>Tanggal Pembelian</label>
-                  <input type="date" className="form-control" value={tanggalPembelian} onChange={(e) => setTanggalPembelian(e.target.value)} required />
-                </div>
-                <div className="form-group">
-                  <label>Asal Usul Perolehan</label>
-                  <input type="text" className="form-control" value={asalUsulPerolehan} onChange={(e) => setAsalUsulPerolehan(e.target.value)} required />
-                </div>
-                <div className="form-group">
-                  <label>Keterangan</label>
-                  <input type="text" className="form-control" value={keteranganAsset} onChange={(e) => setKeteranganAsset(e.target.value)} required />
-                </div>
-                <button type="submit" className="btn btn-primary">Add Asset</button>
-              </form>
-
-              <table className="table table-striped table-bordered">
-                <thead className="thead-dark">
-                  <tr>
-                    <th>Kode Asset</th>
-                    <th>Nama Asset</th>
-                    <th>Jenis Asset</th>
-                    <th>Jumlah Asset</th>
-                    <th>Status Asset</th>
-                    <th>Lokasi Asset</th>
-                    <th>Tanggal Pembelian</th>
-                    <th>Asal Usul Perolehan</th>
-                    <th>Keterangan</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {assets.map((asset) => (
-                    <tr key={asset.kode_asset}>
-                      <td>{asset.kode_asset}</td>
-                      <td>{asset.nama_asset}</td>
-                      <td>{asset.jenis_asset}</td>
-                      <td>{asset.jumlah_asset}</td>
-                      <td>{asset.status_ketersediaan}</td>
-                      <td>{asset.lokasi_asset}</td>
-                      <td>{new Date(asset.tanggal_pembelian).toLocaleDateString()}</td>
-                      <td>{asset.asal_usul_perolehan}</td>
-                      <td>{asset.keterangan_asset}</td>
-                      <td>
-                        <button className="btn btn-danger btn-sm" onClick={() => handleDelete(asset.kode_asset)}>Delete</button>
-                      </td>
+              <h1 className="mb-4">Daftar Aset</h1>
+              <Button variant="primary" onClick={handleShow}>
+                Tambah Data Aset
+              </Button>
+              <div className="table-responsive mt-3">
+                <table className="table table-striped table-bordered">
+                  <thead className="thead-dark">
+                    <tr>
+                      <th scope="col">Kode Aset</th>
+                      <th scope="col">Nama Aset</th>
+                      <th scope="col">Aspek Legal</th>
+                      <th scope="col">Spesifikasi</th>
+                      <th scope="col">Harga</th>
+                      <th scope="col">Tahun Perolehan</th>
+                      <th scope="col">Riwayat Perolehan</th>
+                      <th scope="col">Kondisi</th>
+                      <th scope="col">Keterangan</th>
+                      <th scope="col">Actions</th> {/* Added for edit and delete buttons */}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {assets.map((asset) => (
+                      <tr key={asset.kode_asset}>
+                        <td>{asset.kode_asset}</td>
+                        <td>{asset.nama_asset}</td>
+                        <td>{asset.aspek_legal}</td>
+                        <td>{asset.spesifikasi}</td>
+                        <td>{asset.harga}</td>
+                        <td>{new Date(asset.tahun_perolehan).toLocaleDateString()}</td>
+                        <td>{asset.riwayat_perolehan}</td>
+                        <td>{asset.kondisi}</td>
+                        <td>{asset.keterangan_asset}</td>
+                        <td>
+                          <Button variant="warning" onClick={() => handleEdit(asset)}>Edit</Button>
+                          <Button variant="danger" onClick={() => handleDelete(asset.kode_asset)}>Hapus</Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>{editingAsset ? "Edit" : "Tambah Data Aset"}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="kode_asset">
+              <Form.Label>Kode Asset</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Masukkan kode asset"
+                name="kode_asset"
+                value={formData.kode_asset}
+                onChange={handleChange}
+                disabled={!!editingAsset} // Kode asset tidak dapat diubah saat editing
+              />
+            </Form.Group>
+            <Form.Group controlId="nama_asset">
+              <Form.Label>Nama Asset</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Masukkan nama asset"
+                name="nama_asset"
+                value={formData.nama_asset}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            {/* Tambahkan field lainnya */}
+            <Form.Group controlId="jenis_asset">
+              <Form.Label>Jenis Asset </Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Masukkan jenis asset"
+                name="jenis_asset"
+                value={formData.jenis_asset}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="aspek_legal">
+              <Form.Label>Aspek Legal</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Masukkan aspek legal"
+                name="aspek_legal"
+                value={formData.aspek_legal}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="spesifikasi">
+              <Form.Label>Spesifikasi</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Masukkan spefisikasi asset"
+                name="spefisikasi"
+                value={formData.spesifikasi}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="harga">
+              <Form.Label>Harga</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Masukkan harga"
+                name="harga"
+                value={formData.harga}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="tahun_pembelian">
+              <Form.Label>Tahun Perolehan</Form.Label>
+              <Form.Control
+                type="date"
+                name="tanggal_pembelian"
+                value={formData.tahun_pembelian}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="riwayat_perolehan">
+              <Form.Label>Riwayat Perolehan</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Masukkan riwayat perolehan"
+                name="riwayat_perolehan"
+                value={formData.riwayat_perolehan}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="kondisi">
+              <Form.Label>Kondisi</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Masukkan kondisi"
+                name="kondisi"
+                value={formData.kondisi}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="nama_pengguna">
+              <Form.Label>Nama Pengguna</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Masukkan nama pengguna"
+                name="nama_pengguna"
+                value={formData.nama_pengguna}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="lokasi_pengguna_aset">
+              <Form.Label>Lokasi Pengguna Aset</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Masukkan lokasi pengguna aset"
+                name="lokasi_pengguna_aset"
+                value={formData.lokasi_pengguna_aset}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="keterangan_asset">
+              <Form.Label>Keterangan</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                placeholder="Masukkan keterangan"
+                name="keterangan_asset"
+                value={formData.keterangan_asset}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Button variant="secondary" onClick={handleClose} style={{ marginRight: '10px', marginTop: '10px'}}>
+              Kembali
+            </Button>
+            <Button variant="primary" type="submit" style={{marginTop: '10px'}}>
+              {editingAsset ? "Update Asset" : "Tambahkan Data Asset"}
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };
 
-export default ManageAsset;
+export default AssetList;
+
