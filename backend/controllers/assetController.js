@@ -2,29 +2,32 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-
-
 //insert asset
 export const insertAsset = async (req, res) => {
-    const isGA = req.body.role === 'GA' ? true : false;
-    // if(!isGA) return res.status(401).json({ msg: 'Unauthorized' });
+    const isGA = req.body.role === "general affair" ? true : false;
+    
+    if(!isGA) return res.status(401).json({ msg: 'Unauthorized' });
 
     try {
         const response = await prisma.asset.create({
             data: {
-                kode_asset: req.body.kode_asset,
-                nama_asset: req.body.nama_asset,
-                jenis_asset: req.body.jenis_asset,
+
+                kode_asset: req.body.kode,
+                nama_asset: req.body.nama,
+                jenis_asset: req.body.jenis,
                 aspek_legal: req.body.aspek_legal, 
-                spesifikasi_asset: req.body.spesifikasi_asset,
-                harga_asset: req.body.harga_asset,
-                jumlah_asset: req.body.jumlah_asset, //default 1
+                spesifikasi_asset: req.body.spesifikasi,
+                harga: req.body.harga,
+                jumlah_asset: req.body.jumlah, //default 1
                 status_ketersediaan: req.body.status_ketersediaan, //langsung tersedia
                 keterangan: req.body.keterangan,
-                lokasi_asset: req.body.lokasi_asset, //default GA
+                lokasi: req.body.lokasi,
                 tanggal_pembelian: new Date(req.body.tanggal_pembelian).toISOString(),
-                asal_usul_perolehan: req.body.asal_usul_perolehan, //Riwayat Perolehan
-                kondisi_asset: req.body.kondisi_asset, //default baik
+                asal_usul_pembelian: req.body.asal_usul_pembelian, //Riwayat Perolehan
+                kondisi_asset: req.body.kondisi, //default baik
+                kode_register: req.body.kode_register,
+                merk: req.body.merk,
+                pengguna_asset: req.body.pengguna_asset
             },
         });
         res.status(201).json({ msg: 'Asset created', data: response });
@@ -76,24 +79,31 @@ export const deleteAsset = async (req, res) => {
 
 //update asset
 export const updateAsset = async (req, res) => {
-    const isGA = req.body.role === 'GA' ? true : false;
+    const isGA = req.body.role === "general affair" ? true : false;
     if(!isGA) return res.status(401).json({ msg: 'Unauthorized' });
 
     try {
         const response = await prisma.asset.update({
             where: {
-                nama_asset: req.params.nama_asset,
+                nama_asset: req.params.nama,
             },
             data: {
-                kode_asset: req.body.kode_asset,
-                nama_asset: req.body.nama_asset,
-                jenis_asset: req.body.jenis_asset,
-                jumlah_asset: req.body.jumlah_asset,
-                status_asset: req.body.status_asset,
-                keterangan_asset: req.body.keterangan_asset,
-                lokasi_asset: req.body.lokasi_asset,
-                tanggal_pembelian: req.body.tanggal_pembelian,
-                asal_usul_perolehan: req.body.asal_usul_perolehan,
+                kode_asset: req.body.kode,
+                nama_asset: req.body.nama,
+                jenis_asset: req.body.jenis,
+                aspek_legal: req.body.aspek_legal, 
+                spesifikasi_asset: req.body.spesifikasi,
+                harga: req.body.harga,
+                jumlah_asset: req.body.jumlah, //default 1
+                status_ketersediaan: req.body.status_ketersediaan, //langsung tersedia
+                keterangan: req.body.keterangan,
+                lokasi: req.body.lokasi,
+                tanggal_pembelian: new Date(req.body.tanggal_pembelian).toISOString(),
+                asal_usul_pembelian: req.body.asal_usul_pembelian, //Riwayat Perolehan
+                kondisi_asset: req.body.kondisi, //default baik
+                kode_register: req.body.kode_register,
+                merk: req.body.merk,
+                pengguna_asset: req.body.pengguna_asset
             },
         });
         res.status(200).json({ msg: 'Asset updated', data: response });
