@@ -10,3 +10,73 @@
   background-color: #e57300 !important;
   color: white !important;
 }
+/* Table container */
+.rdt_Table {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #f9f9f9;
+}
+
+/* Table header */
+.rdt_TableHeader {
+  background-color: #343a40;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* Table header rows */
+.card-body .rdt_TableHeadRow {
+  background-color: #5a5c69;
+  border-radius: 2px;
+  border-bottom: 1px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Table columns */
+.card-body .rdt_TableCol {
+  font-size: 14px;
+  color: white;
+  font-weight: bold;
+  text-align: left;
+}
+
+/* Table body */
+.rdt_TableBody {
+  background-color: #fff;
+}
+
+/* Table rows */
+.card-body .rdt_TableRow {
+  font-size: 16px;
+  border-left: 1px solid #9ba6a52b;
+  border-right: 1px solid #9ba6a52b;
+  border-bottom: 1px solid #9ba6a52b;
+}
+
+.card-body .rdt_TableRow:hover {
+  background-color: #f1f1f1;
+}
+
+/* Table cells */
+.rdt_TableCell {
+  padding: 10px;
+  border-bottom: 1px solid #ddd; /* Add bottom border to each cell */
+}
+
+/* Action button */
+.btn-danger {
+  background-color: #dc3545;
+  border: none;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+.card-body .rdt_TableCell{
+  border: #000 1px solid;
+}

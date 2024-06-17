@@ -2,10 +2,33 @@ import React, { useState } from 'react';
 import Navbar from "../../components/DashboardGA/Navbar";
 import Sidebar from '../../components/DashboardGA/Sidebar';
 import { Table } from 'react-bootstrap';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 const AssetRecord = () => {
   const [selectedOption, setSelectedOption] = useState("Kartu Inventaris Aset");
-  const [selectedTab, setSelectedTab] = useState("KIA Mesin Peralatan");
+  const [allAsset, setAllAsset] = useState([]);
+  const [selectedTab, setSelectedTab] = useState("Mesin Peralatan");
+
+
+  useEffect(() => {
+    loadAsset();
+    console.log("selectedTab:", selectedTab);
+  }, [selectedTab]);
+
+
+  const loadAsset = async () => {
+    try {
+      //remove KIA
+      
+
+      const result = await axios.get(`http://localhost:5005/assets/all/${selectedTab}`);
+      setAllAsset(result.data.data);
+      console.log(result.data.data);
+    } catch (error) {
+      console.error("Error loading asset data:", error);
+    }
+  };
 
   const handleSelectChange = (event) => {
     setSelectedOption(event.target.value);
@@ -18,13 +41,13 @@ const AssetRecord = () => {
   const renderTabs = () => {
     return (
       <div className="d-flex justify-content-between mb-3">
-        {["KIA Lahan Tanah", "KIA Bangunan", "KIA Mesin Peralatan", "KIA Teknologi Informasi", "KIA Tetap Lainnya", "KIA Konstruksi Dalam Proses Pengerjaan"].map((tab) => (
+        {["Lahan Tanah", "Bangunan", "Mesin Peralatan", "Teknologi Informasi", "Tetap Lainnya", "Konstruksi Dalam Proses Pengerjaan"].map((tab) => (
           <div key={tab} className="p-2 bd-highlight">
             <button
               className={`btn ${selectedTab === tab ? 'btn-primary' : 'btn-outline-primary'}`}
               onClick={() => handleTabChange(tab)}
             >
-              {tab}
+              KIA {tab}
             </button>
           </div>
         ))}
@@ -59,7 +82,24 @@ const AssetRecord = () => {
             </tr>
           </thead>
           <tbody>
-            {/* Isi data Kartu Inventaris Aset */}
+            {allAsset.map((asset, index) => (
+              <tr key={asset.kode_asset} className="text-center">
+                <td>{index + 1}</td>
+                <td>{asset.kode_asset}</td>
+                <td>{asset.nama_asset}</td>
+                <td>{asset.kode_register}</td>
+                <td>{asset.kondisi_asset === "Baik" ? "B" : ""}</td>
+                <td>{asset.kondisi_asset === "Rusak Ringan" ? "RR" : ""}</td>
+                <td>{asset.kondisi_asset === "Rusak Berat" ? "RB" : ""}</td>
+                <td>{asset.merk}</td>
+                <td>-</td>
+                <td>-</td>
+                <td>{new Date(asset.tanggal_pembelian).toLocaleDateString()}</td>
+                <td>{asset.asal_usul_pembelian}</td>
+                <td>{asset.harga}</td>
+                <td>{asset.keterangan}</td>
+              </tr>
+            ))}
           </tbody>
         </Table>
       </>

@@ -78,18 +78,18 @@ export const deleteAsset = async (req, res) => {
 
 //update asset
 export const updateAsset = async (req, res) => {
-    const isGA = req.body.role === "general affair" ? true : false;
-    if(!isGA) return res.status(401).json({ msg: 'Unauthorized' });
+    // const isGA = req.body.role === "general affair" ? true : false;
+    // if(!isGA) return res.status(401).json({ msg: 'Unauthorized' });
 
     try {
         const response = await prisma.asset.update({
             where: {
-                nama_asset: req.params.nama,
+                id: parseInt(req.params.id),
             },
             data: {
-                kode_asset: req.body.kode,
-                nama_asset: req.body.nama,
-                jenis_asset: req.body.jenis,
+                kode_asset: req.body.kode_asset,
+                nama_asset: req.body.nama_asset,
+                jenis_asset: req.body.jenis_asset,
                 aspek_legal: req.body.aspek_legal, 
                 spesifikasi: req.body.spesifikasi,
                 harga: req.body.harga,
@@ -99,7 +99,7 @@ export const updateAsset = async (req, res) => {
                 lokasi: req.body.lokasi,
                 tanggal_pembelian: new Date(req.body.tanggal_pembelian).toISOString(),
                 asal_usul_pembelian: req.body.asal_usul_pembelian, //Riwayat Perolehan
-                kondisi_asset: req.body.kondisi, //default baik
+                kondisi_asset: req.body.kondisi_asset, //default baik
                 kode_register: req.body.kode_register,
                 merk: req.body.merk,
                 pengguna_asset: req.body.pengguna_asset

@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/assets', insertAsset);
 router.get('/assets', getAssets);
 router.get('/assets/:nama_asset', getAssetbyname);
-router.put('/assets/:nama_asset', updateAsset);
+router.put('/assets/:id', updateAsset);
 router.delete('/assets/:kode_asset', deleteAsset);
 router.get('/assets/all/:jenis_asset', getAssetbyjenis);
 
