@@ -6,6 +6,8 @@ import TableAssets from "../components/TableAssets";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
+import { Card, Row, Col } from 'react-bootstrap';
+import { Pie, Bar } from 'react-chartjs-2';
 
 const Report = () => {
   const [allAsset, setAllAsset] = useState([]);
