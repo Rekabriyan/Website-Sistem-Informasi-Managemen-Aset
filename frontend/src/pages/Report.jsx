@@ -5,6 +5,8 @@ import Table from "../components/ExamplesTable";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
+import { Card, Row, Col } from 'react-bootstrap';
+import { Pie, Bar } from 'react-chartjs-2';
 
 const Report = () => {
   const [allUser, setAllUser] = useState([]);
@@ -107,33 +109,58 @@ const Report = () => {
       <div id="content-wrapper" className="d-flex flex-column">
         <div id="content">
           <Navbar />
-          <div className="container-fluid">
-            <div className="d-sm-flex align-items-center justify-content-between mb-4">
-              <h1 className="h6 mb-0 text-gray-800">Cashflow / Income</h1>
-            </div>
-            <div className="card shadow mb-4">
-              <div className="card-header py-3">
-                <h6 className="m-0 font-weight-bold text-primary text-center">
-                  LIST INCOME
-                </h6>
-              </div>
-              <div className="card-body">
-                <button
-                  type="button"
-                  className="btn btn-primary mb-4"
-                  data-toggle="modal"
-                  data-target="#addincomemodal"
-                >
-                  Add Income
-                </button>
-                {/* <IncomeTable allIncome={allIncome} handleDeleteClick={handleDeleteOnClick}/> */}
-                <Table
-                  allUser={allUser}
-                  handleDeleteClick={handleDeleteOnClick}
-                />
-              </div>
-            </div>
-          </div>
+          <Row className="mb-4">
+            <Col>
+              <Card className="text-center">
+                <Card.Body>
+                  <h4>1</h4>
+                  <p>Permintaan Aset</p>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col>
+              <Card className="text-center">
+                <Card.Body>
+                  <h4>1</h4>
+                  <p>Peminjaman Aset</p>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col>
+              <Card className="text-center">
+                <Card.Body>
+                  <h4>1</h4>
+                  <p>Permintaan Mutasi</p>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col>
+              <Card className="text-center">
+                <Card.Body>
+                  <h4>0</h4>
+                  <p>Permintaan Laporan Aset</p>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Card>
+                <Card.Header className="bg-warning text-white">Jumlah Aset Berdasarkan Jenis</Card.Header>
+                <Card.Body>
+                  {/* <Pie data={pieData} /> */}
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col>
+              <Card>
+                <Card.Header className="bg-warning text-white">Kebutuhan Aset Berdasarkan Jenis</Card.Header>
+                <Card.Body>
+                  {/* <Bar data={barData} /> */}
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
         </div>
       </div>
 
