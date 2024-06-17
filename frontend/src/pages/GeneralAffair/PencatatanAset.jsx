@@ -112,8 +112,7 @@ const AssetRecord = () => {
         return (
           <>
             <h3 className="mb-4 text-center">Kartu Inventaris Aset</h3>
-            {renderTabs()}
-            {renderTableByTab()}
+            {renderTable()}
           </>
         );
       case "Kartu Inventaris Ruangan":
