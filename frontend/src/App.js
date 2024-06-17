@@ -7,6 +7,7 @@ import ManageAsset from './pages/GeneralAffair/ManageAsset';
 import ReactPdf from './pages/ReactPDF';
 import PencatatanAset from './pages/GeneralAffair/PencatatanAset'
 import Laporan from './pages/GeneralAffair/Laporan'
+import PermintaanLaporan from './pages/GeneralAffair/PermintaanLaporan';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/pdf" element={<ReactPdf />} />
           <Route path="/pencatatanAset" element={<PencatatanAset/>} />
           <Route path="/laporan" element={<Laporan/>} />
+          <Route path="/permintaanLaporan" element={<PermintaanLaporan/>} />
         </Routes>
       </Router>
     </div>

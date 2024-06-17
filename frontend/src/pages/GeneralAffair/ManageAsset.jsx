@@ -155,17 +155,17 @@ const AssetList = () => {
           <div id="content">
             <Navbar />
             <div className="container-fluid mt-4">
-            <h1 className="mb-4">Daftar Aset</h1>
+              <h1 className="mb-4">Daftar Aset</h1>
               <div className="d-flex justify-content-between">
-              <Button variant="primary" onClick={handleShow}>
-                Tambah Data Aset
-              </Button>
+                <Button variant="primary" onClick={handleShow}>
+                  Tambah Data Aset
+                </Button>
                 <div className="d-flex align-items-center mb-3">
                   <select className="form-select w-auto">
-                  <option selected>Buku Inventaris</option>
-                  <option value="1">Rekapitulasi Mutasi Aset</option>
+                    <option selected>Buku Inventaris</option>
+                    <option value="1">Rekapitulasi Mutasi Aset</option>
                   </select>
-                 </div>
+                </div>
               </div>
               <div className="table-responsive mt-3">
                 <table className="table table-striped table-bordered">
@@ -196,7 +196,7 @@ const AssetList = () => {
                         <td>{asset.kondisi}</td>
                         <td>{asset.keterangan_asset}</td>
                         <td>
-                          <Button variant="warning" onClick={() => handleEdit(asset)}>Edit</Button>
+                          <Button variant="warning" onClick={() => handleEdit(asset)} className="me-2">Edit</Button>
                           <Button variant="danger" onClick={() => handleDelete(asset.kode_asset)}>Hapus</Button>
                         </td>
                       </tr>
@@ -262,7 +262,7 @@ const AssetList = () => {
               <Form.Control
                 type="text"
                 placeholder="Masukkan spefisikasi asset"
-                name="spefisikasi"
+                name="spesifikasi"
                 value={formData.spesifikasi}
                 onChange={handleChange}
               />
@@ -277,12 +277,12 @@ const AssetList = () => {
                 onChange={handleChange}
               />
             </Form.Group>
-            <Form.Group controlId="tahun_pembelian">
+            <Form.Group controlId="tahun_perolehan">
               <Form.Label>Tahun Perolehan</Form.Label>
               <Form.Control
                 type="date"
-                name="tanggal_pembelian"
-                value={formData.tahun_pembelian}
+                name="tahun_perolehan"
+                value={formData.tahun_perolehan}
                 onChange={handleChange}
               />
             </Form.Group>
@@ -351,4 +351,3 @@ const AssetList = () => {
 };
 
 export default AssetList;
-
