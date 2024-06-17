@@ -32,38 +32,166 @@ const AssetRecord = () => {
     );
   };
 
-  const renderTable = () => {
-    return (
-      <>
-        {renderTabs()}
-        <Table striped bordered hover>
-          <thead className="thead-dark">
-            <tr className="text-center">
-              <th rowSpan="2">No</th>
-              <th rowSpan="2">Kode Aset</th>
-              <th rowSpan="2">Jenis Aset/ Nama Aset</th>
-              <th rowSpan="2">Kode Register</th>
-              <th colSpan="3">Kondisi Aset</th>
-              <th rowSpan="2">Merek/Tipe</th>
-              <th rowSpan="2">Ukuran</th>
-              <th rowSpan="2">Bahan</th>
-              <th rowSpan="2">Tanggal Perolehan</th>
-              <th rowSpan="2">Asal Usul Perolehan</th>
-              <th rowSpan="2">Harga</th>
-              <th rowSpan="2">Ket</th>
-            </tr>
-            <tr className="text-center">
-              <th>B</th>
-              <th>RR</th>
-              <th>RB</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* Isi data Kartu Inventaris Aset */}
-          </tbody>
-        </Table>
-      </>
-    );
+  const renderTableByTab = () => {
+    switch (selectedTab) {
+      case "KIA Lahan Tanah":
+        return (
+          <>
+            <h3 className="mb-4 text-center">KIA Lahan Tanah</h3>
+            <Table striped bordered hover>
+              <thead className="thead-dark">
+                <tr className="text-center">
+                  <th>No</th>
+                  <th>Kode Aset</th>
+                  <th>Jenis Aset/ Nama Aset</th>
+                  <th>Kode Register</th>
+                  <th>Luas</th>
+                  <th>Status Hak</th>
+                  <th>Penggunaan</th>
+                  <th>Asal Usul Perolehan</th>
+                  <th>Harga</th>
+                  <th>Keterangan</th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* Isi data KIA Lahan Tanah */}
+              </tbody>
+            </Table>
+          </>
+        );
+      case "KIA Bangunan":
+        return (
+          <>
+            <h3 className="mb-4 text-center">KIA Bangunan</h3>
+            <Table striped bordered hover>
+              <thead className="thead-dark">
+                <tr className="text-center">
+                  <th>No</th>
+                  <th>Kode Aset</th>
+                  <th>Jenis Aset/ Nama Aset</th>
+                  <th>Kode Register</th>
+                  <th>Konstruksi</th>
+                  <th>Luas</th>
+                  <th>Lokasi</th>
+                  <th>Tanggal Perolehan</th>
+                  <th>Harga</th>
+                  <th>Keterangan</th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* Isi data KIA Bangunan */}
+              </tbody>
+            </Table>
+          </>
+        );
+      case "KIA Mesin Peralatan":
+        return (
+          <>
+            <h3 className="mb-4 text-center">KIA Mesin Peralatan</h3>
+            <Table striped bordered hover>
+              <thead className="thead-dark">
+                <tr className="text-center">
+                  <th rowSpan="2">No</th>
+                  <th rowSpan="2">Kode Aset</th>
+                  <th rowSpan="2">Jenis Aset/ Nama Aset</th>
+                  <th rowSpan="2">Kode Register</th>
+                  <th colSpan="3">Kondisi Aset</th>
+                  <th rowSpan="2">Merek/Tipe</th>
+                  <th rowSpan="2">Ukuran</th>
+                  <th rowSpan="2">Bahan</th>
+                  <th rowSpan="2">Tanggal Perolehan</th>
+                  <th rowSpan="2">Asal Usul Perolehan</th>
+                  <th rowSpan="2">Harga</th>
+                  <th rowSpan="2">Ket</th>
+                </tr>
+                <tr className="text-center">
+                  <th>B</th>
+                  <th>RR</th>
+                  <th>RB</th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* Isi data KIA Mesin Peralatan */}
+              </tbody>
+            </Table>
+          </>
+        );
+      case "KIA Teknologi Informasi":
+        return (
+          <>
+            <h3 className="mb-4 text-center">KIA Teknologi Informasi</h3>
+            <Table striped bordered hover>
+              <thead className="thead-dark">
+                <tr className="text-center">
+                  <th>No</th>
+                  <th>Kode Aset</th>
+                  <th>Jenis Aset/ Nama Aset</th>
+                  <th>Kode Register</th>
+                  <th>Merek/Tipe</th>
+                  <th>Spesifikasi</th>
+                  <th>Asal Usul Perolehan</th>
+                  <th>Tanggal Perolehan</th>
+                  <th>Harga</th>
+                  <th>Keterangan</th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* Isi data KIA Teknologi Informasi */}
+              </tbody>
+            </Table>
+          </>
+        );
+      case "KIA Tetap Lainnya":
+        return (
+          <>
+            <h3 className="mb-4 text-center">KIA Tetap Lainnya</h3>
+            <Table striped bordered hover>
+              <thead className="thead-dark">
+                <tr className="text-center">
+                  <th>No</th>
+                  <th>Kode Aset</th>
+                  <th>Jenis Aset/ Nama Aset</th>
+                  <th>Kode Register</th>
+                  <th>Jumlah</th>
+                  <th>Satuan</th>
+                  <th>Harga</th>
+                  <th>Keterangan</th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* Isi data KIA Tetap Lainnya */}
+              </tbody>
+            </Table>
+          </>
+        );
+      case "KIA Konstruksi Dalam Proses Pengerjaan":
+        return (
+          <>
+            <h3 className="mb-4 text-center">KIA Konstruksi Dalam Proses Pengerjaan</h3>
+            <Table striped bordered hover>
+              <thead className="thead-dark">
+                <tr className="text-center">
+                  <th>No</th>
+                  <th>Kode Aset</th>
+                  <th>Jenis Aset/ Nama Aset</th>
+                  <th>Kode Register</th>
+                  <th>Lokasi</th>
+                  <th>Tanggal Mulai</th>
+                  <th>Perkiraan Selesai</th>
+                  <th>Persentase</th>
+                  <th>Harga</th>
+                  <th>Keterangan</th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* Isi data KIA Konstruksi Dalam Proses Pengerjaan */}
+              </tbody>
+            </Table>
+          </>
+        );
+      default:
+        return null;
+    }
   };
 
   const renderTableByOption = () => {
@@ -72,7 +200,8 @@ const AssetRecord = () => {
         return (
           <>
             <h3 className="mb-4 text-center">Kartu Inventaris Aset</h3>
-            {renderTable()}
+            {renderTabs()}
+            {renderTableByTab()}
           </>
         );
       case "Kartu Inventaris Ruangan":

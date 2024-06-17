@@ -34,20 +34,24 @@ const Report = () => {
                 </Link>
               </Col>
               <Col>
-                <Card className="text-center">
-                  <Card.Body>
-                    <h4>1</h4>
-                    <p>Permintaan Mutasi</p>
-                  </Card.Body>
-                </Card>
+                <Link to="/permintaan-mutasi"> {/* Tambahkan Link ke Permintaan Mutasi */}
+                  <Card className="text-center">
+                    <Card.Body>
+                      <h4>1</h4>
+                      <p>Permintaan Mutasi</p>
+                    </Card.Body>
+                  </Card>
+                </Link>
               </Col>
               <Col>
-                <Card className="text-center">
-                  <Card.Body>
-                    <h4>0</h4>
-                    <p>Permintaan Laporan Aset</p>
-                  </Card.Body>
-                </Card>
+                <Link to="/permintaan-laporan-aset"> {/* Tambahkan Link ke Permintaan Laporan Aset */}
+                  <Card className="text-center">
+                    <Card.Body>
+                      <h4>0</h4>
+                      <p>Permintaan Laporan Aset</p>
+                    </Card.Body>
+                  </Card>
+                </Link>
               </Col>
             </Row>
             <Row>

@@ -10,6 +10,7 @@ import Laporan from './pages/GeneralAffair/Laporan'
 import PermintaanLaporan from './pages/GeneralAffair/PermintaanLaporan';
 import PermintaanAset from './pages/GeneralAffair/PermintaanAset';
 import PeminjamanAset from './pages/GeneralAffair/PeminjamanAset';
+import PermintaanMutasi from './pages/GeneralAffair/PermintaanMutasi';
 
 function App() {
   return (
@@ -24,9 +25,10 @@ function App() {
           <Route path="/pdf" element={<ReactPdf />} />
           <Route path="/pencatatanAset" element={<PencatatanAset/>} />
           <Route path="/laporan" element={<Laporan/>} />
-          <Route path="/permintaanLaporan" element={<PermintaanLaporan/>} />
+          <Route path="/permintaan-laporan-aset" element={<PermintaanLaporan/>} />
           <Route path="/permintaan-aset" element={<PermintaanAset />} />
           <Route path="/peminjaman-aset" element={<PeminjamanAset />} />
+          <Route path="/permintaan-mutasi" element={<PermintaanMutasi />} />
         </Routes>
       </Router>
     </div>
