@@ -160,21 +160,17 @@ const AssetList = () => {
               <Button variant="primary" onClick={handleShow}>
                 Tambah Data Aset
               </Button>
-                <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                    Cari
-                  </button>
-                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                  </ul>
-                </div>
+                <div className="d-flex align-items-center mb-3">
+                  <select className="form-select w-auto">
+                  <option selected>Buku Inventaris</option>
+                  <option value="1">Rekapitulasi Mutasi Aset</option>
+                  </select>
+                 </div>
               </div>
               <div className="table-responsive mt-3">
                 <table className="table table-striped table-bordered">
                   <thead className="thead-dark">
-                    <tr>
+                    <tr className='text-center'>
                       <th scope="col">Kode Aset</th>
                       <th scope="col">Nama Aset</th>
                       <th scope="col">Aspek Legal</th>

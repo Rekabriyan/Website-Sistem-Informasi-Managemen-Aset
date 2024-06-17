@@ -4,8 +4,6 @@ import Sidebar from '../../components/DashboardGA/Sidebar';
 import { Modal, Button, Form } from 'react-bootstrap';
 
 const AssetRecord = () => {
-  
-  
     return (
     <>
         <div id="wrapper" className='d-flex'>
