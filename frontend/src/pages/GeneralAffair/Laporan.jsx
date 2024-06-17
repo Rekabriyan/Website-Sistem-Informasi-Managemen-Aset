@@ -2,9 +2,38 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from "../../components/DashboardGA/Navbar";
 import Sidebar from '../../components/DashboardGA/Sidebar';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 const Laporan = () => {
     const [selectedReport, setSelectedReport] = useState("Buku Inventaris");
+    const [allAssets, setAllAssets] = useState([]);
+    const [rekapMutasi, setRekapMutasi] = useState([]);
+
+
+    useEffect(() => {
+        loadAsset();
+        loadRekapMutasi();
+      }, []);
+
+
+    const loadAsset = async () => {
+        try {
+          const result = await axios.get(`http://localhost:5005/assets`);
+          setAllAssets(result.data.data);
+        } catch (error) {
+          console.error("Error loading asset data:", error);
+        }
+      }; 
+
+    const loadRekapMutasi = async () => {
+        try {
+            const result = await axios.get(`http://localhost:5005/requests/mutasi-diterima`);
+            setRekapMutasi(result.data.data);
+        } catch (error) {
+            console.error("Error loading asset data:", error);
+        }
+    };
 
     const handleSelectChange = (event) => {
         setSelectedReport(event.target.value);
@@ -52,7 +81,27 @@ const Laporan = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {/* Add table rows here */}
+                                            {
+                                                allAssets.map((asset, index) => (
+                                                    <tr key={index}>
+                                                        <td className='text-center'>{index + 1}</td>
+                                                        <td>{asset.kode_asset}</td>
+                                                        <td>{asset.kode_register}</td>
+                                                        <td>{asset.nama_asset}</td>
+                                                        <td>{asset.merk}</td>
+                                                        <td>-</td>
+                                                        <td>-</td>
+                                                        <td>{asset.asal_usul_pembelian}</td>
+                                                        <td>{asset.tanggal_pembelian}</td>
+                                                        <td>Buah</td>
+                                                        <td className='text-center'>{asset.kondisi_asset}</td>
+                                                        <td className='text-center'>{asset.kondisi_rr}</td>
+                                                        <td className='text-center'>{asset.kondisi_rb}</td>
+                                                        <td>{asset.harga}</td>
+                                                        <td>{asset.keterangan}</td>
+                                                    </tr>
+                                                ))
+                                            }
                                         </tbody>
                                     </table>
                                 ) : (
@@ -78,7 +127,24 @@ const Laporan = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {/* Add table rows here */}
+                                            {
+                                                rekapMutasi.map((rekap, index) => (
+                                                    <tr key={index}>
+                                                        <td className='text-center'>{index + 1}</td>
+                                                        <td>{rekap.asset.kode_asset}</td>
+                                                        <td>{rekap.asset.nama_asset}</td>
+                                                        <td>{rekap.asset.kode_register}</td>
+                                                        <td className='text-center'>{rekap.jumlah_aset_awal}</td>
+                                                        <td>{rekap.jumlah_harga_awal}</td>
+                                                        <td className='text-center'>{rekap.berkurang_jumlah_aset}</td>
+                                                        <td>{rekap.berkurang_jumlah_harga}</td>
+                                                        <td className='text-center'>{rekap.bertambah_jumlah_aset}</td>
+                                                        <td>{rekap.bertambah_jumlah_harga}</td>
+                                                        <td>{rekap.keterangan}</td>
+                                                    </tr>
+                                                ))
+                                            
+                                            }
                                         </tbody>
                                     </table>
                                 )}

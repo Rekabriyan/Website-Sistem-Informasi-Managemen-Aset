@@ -81,7 +81,13 @@ export const addMutasiDalam = async (req, res) => {
 //get all permintaan
 export const getAllPermintaan = async (req, res) => {
     try {
-        const response = await prisma.permintaan.findMany();
+        const response = await prisma.permintaan.findMany(
+            {
+                include: {
+                    asset: true,
+                },
+            }
+        );
         res.status(200).json({ data: response });
     } catch (error) {
         res.status(500).json({ msg: error.message });
@@ -155,16 +161,12 @@ export const getMutasiDiterima = async (req, res) => {
             where: {
                 status: "Diterima",
                 tipe_permintaan: "Mutasi",
+            },include: {
+                asset: true,
             },
         });
 
-        const getAsset = await prisma.asset.findUnique({
-            where: {
-                id: response.id_asset,
-            },
-        });
-
-        res.status(200).json({ data: response, asset: getAsset });
+        res.status(200).json({ data: response });
     } catch (error) {
         res.status(500).json({ msg: error.message });
     }
@@ -187,6 +189,52 @@ export const getPengajuanDiterima = async (req, res) => {
         });
 
         res.status(200).json({ data: response, asset: getAsset });
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
+}
+
+
+export const getAllPeminjaman = async (req, res) => {
+    try {
+        const response = await prisma.permintaan.findMany({
+            where: {
+                tipe_permintaan: "Peminjaman",
+            },include: {
+                asset: true,
+            },
+        });
+        res.status(200).json({ data: response });
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
+}
+
+export const getAllMutasi = async (req, res) => {
+    try {
+        const response = await prisma.permintaan.findMany({
+            where: {
+                tipe_permintaan: "Mutasi",
+            },include: {
+                asset: true,
+            },
+        });
+        res.status(200).json({ data: response });
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
+}
+
+export const getAllPengajuan = async (req, res) => {
+    try {
+        const response = await prisma.permintaan.findMany({
+            where: {
+                tipe_permintaan: "Pengajuan",
+            },include: {
+                asset: true,
+            },
+        });
+        res.status(200).json({ data: response });
     } catch (error) {
         res.status(500).json({ msg: error.message });
     }

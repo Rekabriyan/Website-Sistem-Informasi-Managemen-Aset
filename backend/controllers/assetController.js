@@ -59,6 +59,20 @@ export const getAssetbyname = async (req, res) => {
     }
 };
 
+//get asset by name
+export const getAssetbyId = async (req, res) => {
+    try {
+        const response = await prisma.asset.findUnique({
+            where: {
+                nama_asset: req.params.id,
+            },
+        });
+        res.status(200).json({ data: response });
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
+};
+
 //delete asset
 export const deleteAsset = async (req, res) => {
     const isGA = req.body.role === 'GA' ? true : false;

@@ -1,13 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from "../../components/DashboardGA/Navbar";
 import Sidebar from '../../components/DashboardGA/Sidebar';
 import { Table, Form, Button, InputGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const PermintaanAset = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState('Semua Aset');
   const navigate = useNavigate();
+  const [allRequest, setAllRequest] = useState([]);
+  const [idAsset, setIdAsset] = useState(0);
+  const [asset, setAsset] = useState([]);
+  const [konfirmasi, setKonfirmasi] = useState({
+    status: "",
+    role: "",
+    id_asset: 0,
+    approved_by: "Rudi",
+  });
+
+  useEffect(() => {
+    loadRequest();
+  }, []);
+
+  const loadRequest = async () => {
+    try {
+      const result = await axios.get(`http://localhost:5005/requests/pengajuan`);
+      setAllRequest(result.data.data);
+    } catch (error) {
+      console.error("Error loading asset data:", error);
+    }
+  };
+
+  const loadAsset = async () => {
+    try {
+      const result = await axios.get(`http://localhost:5005/assets/byid/${idAsset}`);
+      setAsset(result.data.data);
+    } catch (error) {
+      console.error("Error loading asset data:", error);
+    }
+  };
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -18,17 +50,38 @@ const PermintaanAset = () => {
   };
 
   const handleSearch = () => {
-    // Implement search functionality here
     console.log('Searching for:', searchTerm, 'with filter:', filter);
-    // You can implement filtering logic here
   };
 
-  const data = [
-    { kode: '03.010.04.01', nama: 'Daihatsu Terios', jenis: 'Mesin dan Peralatan', jumlah: 1, pengajuan: 'Ari', departemen: 'Logistik', tanggal: '20/5/2024', status: 'Belum Dikonfirmasi' },
-    { kode: '03.011.01.01', nama: 'Honda Revo', jenis: 'Mesin dan Peralatan', jumlah: 1, pengajuan: 'Asep', departemen: 'Logistik', tanggal: '20/5/2024', status: 'Ditolak' },
-    { kode: '03.02.74.01', nama: 'Asus Zenbook', jenis: 'Teknologi Informasi', jumlah: 1, pengajuan: 'Bagus', departemen: 'Keuangan', tanggal: '20/5/2024', status: 'Diterima' },
-    { kode: '03.02.597.01', nama: 'Lenovo Ideapad', jenis: 'Teknologi Informasi', jumlah: 1, pengajuan: 'Bagas', departemen: 'Keuangan', tanggal: '20/5/2024', status: 'Diterima' },
-  ];
+  const handleTerima = async (id, assetid) => {
+    try {
+      const result = await axios.put(`http://localhost:5005/requests/confirmation/${id}`, {
+        status: 'Diterima',
+        id_asset: assetid,
+        role: "general affair",
+        approved_by: "Rudi"
+      });
+      console.log(result);
+      loadRequest();
+    } catch (error) {
+      console.error("Error accepting request:", error);
+    }
+  };
+
+  const handleTolak = async (id, assetid) => {
+    try {
+      const result = await axios.put(`http://localhost:5005/requests/confirmation/${id}`, {
+        status: 'Ditolak',
+        id_asset: assetid,
+        role: "general affair",
+        approved_by: "Rudi"
+      });
+      console.log(result);
+      loadRequest();
+    } catch (error) {
+      console.error("Error rejecting request:", error);
+    }
+  };
 
   return (
     <>
@@ -72,19 +125,36 @@ const PermintaanAset = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {data.map((item, index) => (
+                    {allRequest.map((item, index) => (
                       <tr key={index} className="text-center">
-                        <td>{item.kode}</td>
-                        <td>{item.nama}</td>
-                        <td>{item.jenis}</td>
-                        <td>{item.jumlah}</td>
-                        <td>{item.pengajuan}</td>
-                        <td>{item.departemen}</td>
-                        <td>{item.tanggal}</td>
+                        <td>{item.asset.kode_asset}</td>
+                        <td>{item.asset.nama_asset}</td>
+                        <td>{item.asset.jenis_asset}</td>
+                        <td>{item.asset.jumlah_asset}</td>
+                        <td>{item.nama_calon_pengguna}</td>
+                        <td>{item.calon_lokasi_pengguna}</td>
+                        <td>{new Date(item.tanggal_permintaan).toLocaleDateString()}</td>
                         <td>{item.status}</td>
                         <td>
-                          <Button variant="success" className="me-2">Terima</Button>
-                          <Button variant="danger">Tolak</Button>
+                          {item.status === "Diterima" || item.status === "Ditolak" ? (
+                            <Button variant="secondary" disabled>Surat Keterangan</Button>
+                          ) : (
+                            <>
+                              <Button
+                                variant="success"
+                                className="me-2"
+                                onClick={() => handleTerima(item.id, item.id_asset)}
+                              >
+                                Terima
+                              </Button>
+                              <Button
+                                variant="danger"
+                                onClick={() => handleTolak(item.id, item.id_asset)}
+                              >
+                                Tolak
+                              </Button>
+                            </>
+                          )}
                         </td>
                       </tr>
                     ))}

@@ -47,8 +47,8 @@ model Asset {
 
 model permintaan {
   id                        Int        @id @default(autoincrement())
-  id_user                   Int
-  id_asset                  Int
+  id_user                   Int?
+  id_asset                  Int?
   tipe_permintaan           String
   status                    String
   tanggal_permintaan        DateTime
@@ -59,8 +59,8 @@ model permintaan {
   estimasi                  Int?
   lokasi_mutasi             String?
   approved_by               String?
-  user                      User       @relation(fields: [id_user], references: [id])  // FK ke User
-  asset                     Asset      @relation(fields: [id_asset], references: [id]) // FK ke Asset
+  user                      User?       @relation(fields: [id_user], references: [id])  // FK ke User
+  asset                     Asset?      @relation(fields: [id_asset], references: [id], onDelete: Cascade) // FK ke Asset
 
   @@index([id_user])
   @@index([id_asset])

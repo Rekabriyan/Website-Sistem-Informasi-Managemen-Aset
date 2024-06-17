@@ -20,8 +20,6 @@ const AssetRecord = () => {
   const loadAsset = async () => {
     try {
       //remove KIA
-      
-
       const result = await axios.get(`http://localhost:5005/assets/all/${selectedTab}`);
       setAllAsset(result.data.data);
       console.log(result.data.data);

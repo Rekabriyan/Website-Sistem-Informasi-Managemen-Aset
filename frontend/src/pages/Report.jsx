@@ -195,7 +195,7 @@ const Report = () => {
                           <td>{new Date(asset.tanggal_pembelian).getFullYear()}</td>
                           <td>{asset.asal_usul_pembelian}</td>
                           <td>{asset.kondisi_asset}</td>
-                          <td>{asset.keterangan}</td>
+                          <td>{asset.status_ketersediaan}</td>
                           <td>
                             <button className="btn btn-warning btn-sm m-1 fw-bold" data-toggle="modal" data-target="#editassetmodal" onClick={() => handleEdit(asset)}>Edit</button>
                             <button className="btn btn-danger btn-sm fw-bold" data-id={asset.kode_asset} data-toggle="modal" data-target="#deleteincomemodal" onClick={() => handleDeleteOnClick(asset.kode_asset)}>Delete</button>
