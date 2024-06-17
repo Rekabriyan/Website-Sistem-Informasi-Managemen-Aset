@@ -24,12 +24,14 @@ const Report = () => {
                 </Link>
               </Col>
               <Col>
-                <Card className="text-center">
-                  <Card.Body>
-                    <h4>1</h4>
-                    <p>Peminjaman Aset</p>
-                  </Card.Body>
-                </Card>
+                <Link to="/peminjaman-aset"> {/* Tambahkan Link ke Peminjaman Aset */}
+                  <Card className="text-center">
+                    <Card.Body>
+                      <h4>1</h4>
+                      <p>Peminjaman Aset</p>
+                    </Card.Body>
+                  </Card>
+                </Link>
               </Col>
               <Col>
                 <Card className="text-center">
