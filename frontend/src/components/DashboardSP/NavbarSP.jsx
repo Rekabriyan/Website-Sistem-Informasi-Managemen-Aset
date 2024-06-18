@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 
-const Navbar = () => {
+const NavbarSP = () => {
   //Get username from cookies
   const [username, setUsername] = useState("");
 
@@ -175,4 +175,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default NavbarSP;
