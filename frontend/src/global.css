@@ -80,3 +80,12 @@
 .card-body .rdt_TableCell{
   border: #000 1px solid;
 }
+
+.card-hover {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card-hover:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}

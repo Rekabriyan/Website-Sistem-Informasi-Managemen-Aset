@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../components/DashboardGA/Sidebar";
 import Navbar from "../components/DashboardGA/Navbar";
 import axios from "axios";
 import Swal from "sweetalert2";
-import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 import { Card, Row, Col, Container } from 'react-bootstrap';
 
 const Report = () => {
@@ -15,6 +15,8 @@ const Report = () => {
   const [deletesUser, setDeletesUSer] = useState({
     id_income: 0,
   });
+  const navigate = useNavigate();
+
   useEffect(() => {
     loadUser();
   }, []);
@@ -55,13 +57,16 @@ const Report = () => {
       console.error("Error adding user:", error);
     }
   };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewUser({ ...newUser, [name]: value });
   };
+
   const handleDeleteOnClick = (id) => {
     setDeletesUSer({ id: id });
   };
+
   return (
     <div id="wrapper">
       <Sidebar />
@@ -71,7 +76,7 @@ const Report = () => {
           <Container fluid className="mt-4">
             <Row className="mb-4">
               <Col>
-                <Card className="text-center">
+                <Card className="text-center card-hover" onClick={() => navigate("/permintaan-aset")}>
                   <Card.Body>
                     <h4>1</h4>
                     <p>Permintaan Aset</p>
@@ -79,7 +84,7 @@ const Report = () => {
                 </Card>
               </Col>
               <Col>
-                <Card className="text-center">
+                <Card className="text-center card-hover" onClick={() => navigate("/peminjaman-aset")}>
                   <Card.Body>
                     <h4>1</h4>
                     <p>Peminjaman Aset</p>
@@ -87,7 +92,7 @@ const Report = () => {
                 </Card>
               </Col>
               <Col>
-                <Card className="text-center">
+                <Card className="text-center card-hover" onClick={() => navigate("/permintaan-mutasi")}>
                   <Card.Body>
                     <h4>1</h4>
                     <p>Permintaan Mutasi</p>
@@ -95,7 +100,7 @@ const Report = () => {
                 </Card>
               </Col>
               <Col>
-                <Card className="text-center">
+                <Card className="text-center card-hover" onClick={() => navigate("/permintaan-laporan-aset")}>
                   <Card.Body>
                     <h4>0</h4>
                     <p>Permintaan Laporan Aset</p>
@@ -170,8 +175,6 @@ const Report = () => {
                   </div>
                 </div>
                 <div className="form-group">
-
-
                   <label htmlFor="time_stamp">Time Stamp</label>
                   <input
                     type="date"
@@ -249,4 +252,5 @@ const Report = () => {
     </div >
   );
 };
+
 export default Report;

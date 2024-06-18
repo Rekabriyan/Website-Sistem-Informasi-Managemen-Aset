@@ -74,7 +74,7 @@ const Sidebar = () => {
               <a className="collapse-item text-white custom-hover" href="/laporan">
                 Laporan
               </a>
-              <a className="collapse-item text-white custom-hover" href="/permintaanLaporan">
+              <a className="collapse-item text-white custom-hover" href="/permintaan-laporan-aset">
                 Pemintaan Laporan
               </a>
             </div>
