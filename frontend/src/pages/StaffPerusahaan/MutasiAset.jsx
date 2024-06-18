@@ -6,8 +6,8 @@ const MutasiAset = () => {
     const [selectedForm, setSelectedForm] = useState(''); // State to manage the selected form
 
     // Handler for form selection
-    const handleFormSelection = (formType) => {
-        setSelectedForm(formType);
+    const handleFormSelection = (event) => {
+        setSelectedForm(event.target.value);
     };
 
     return (
@@ -20,13 +20,17 @@ const MutasiAset = () => {
                         <h1 className="mb-4 text-dark font-weight-bold">Formulir Mutasi Aset</h1>
                         
                         <div className="mb-4">
-                            <button onClick={() => handleFormSelection('luar')} className="btn btn-primary mr-2">Luar Perusahaan</button>
-                            <button onClick={() => handleFormSelection('dalam')} className="btn btn-secondary">Dalam Perusahaan</button>
+                            <label htmlFor="formFilter" className="mr-2">Pilih Jenis Mutasi:</label>
+                            <select id="formFilter" className="form-control d-inline w-auto" onChange={handleFormSelection}>
+                                <option value="">Pilih</option>
+                                <option value="luar">Luar Perusahaan</option>
+                                <option value="dalam">Dalam Perusahaan</option>
+                            </select>
                         </div>
 
                         {selectedForm === 'luar' && (
                             <div className="card p-4 mb-4">
-                                <h3 className="mb-4">Formulir Mutasi Luar Perusahaan</h3>
+                                <h2 className="mb-4">Formulir Mutasi Luar Perusahaan</h2>
                                 <form>
                                     <div className="form-group">
                                         <label>Nama Aset</label>
@@ -68,7 +72,7 @@ const MutasiAset = () => {
 
                         {selectedForm === 'dalam' && (
                             <div className="card p-4">
-                                <h3 className="mb-4">Formulir Mutasi Dalam Perusahaan</h3>
+                                <h2 className="mb-4">Formulir Mutasi Dalam Perusahaan</h2>
                                 <form>
                                     <div className="form-group">
                                         <label>Nama Aset</label>
