@@ -46,7 +46,7 @@ const SidebarSP = () => {
           </div>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="/pencatatanAset">
+          <a className="nav-link" href="/mutasiAset">
             <i className="fas fa-fw fa-tachometer-alt"></i>
             <span>Mutasi</span>
           </a>

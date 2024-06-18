@@ -7,6 +7,7 @@ import ManageAsset from './pages/GeneralAffair/ManageAsset';
 import ReactPdf from './pages/ReactPDF';
 import PencatatanAset from './pages/GeneralAffair/PencatatanAset'
 import AsetListSP from './pages/StaffPerusahaan/AsetListSP'; // Pastikan path ini benar
+import MutasiAset from './pages/StaffPerusahaan/MutasiAset';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/pdf" element={<ReactPdf />} />
           <Route path="/pencatatanAset" element={<PencatatanAset/>} />
           <Route path="/assetsSP" element={<AsetListSP />} />
+          <Route path="/mutasiAset" element={<MutasiAset />} /> 
         </Routes>
       </Router>
     </div>
