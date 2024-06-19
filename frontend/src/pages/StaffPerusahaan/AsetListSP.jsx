@@ -4,25 +4,34 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import NavbarSP from "../../components/DashboardSP/NavbarSP";
 import SidebarSP from "../../components/DashboardSP/SidebarSP";
 import { Container, Row, Col, Form, Button, Table, Modal } from 'react-bootstrap';
+import Cookies from 'js-cookie';
 // import './YourCSSFileName.css'; // Add the correct path to your CSS file
 
 const PeminjamanAsetForm = () => {
     const [formData, setFormData] = useState({
-        namaAset: '',
-        namaPengguna: '',
-        lokasiPengguna: '',
-        namaCalonPengguna: '',
+        id_user: parseInt(Cookies.get('userid')),
+        id_asset: '',
+        tipe_permintaan: '',
+        nama_pengguna: '',
+        lokasi_pengguna: '',
     });
 
     const [showModal, setShowModal] = useState(false);
     const [modalTitle, setModalTitle] = useState('');
+    const [idAset, setIdAset] = useState('');
+    const [tipePermintaan, setTipePermintaan] = useState('');
     const [asetData, setAsetData] = useState([]);
+    
 
     useEffect(() => {
         // Fetch data from API endpoint
-        axios.get('https://api.yourendpoint.com/aset') // Ganti dengan URL endpoint Anda
+        axios.get('http://localhost:5005/assets') // Ganti dengan URL endpoint Anda
             .then(response => {
-                setAsetData(response.data);
+                if (response.data && Array.isArray(response.data.data)) {
+                    setAsetData(response.data.data);
+                } else {
+                    console.error('Error: API did not return an array');
+                }
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
@@ -37,14 +46,35 @@ const PeminjamanAsetForm = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form data submitted:', formData);
-        setShowModal(false);
-    };
+        
+        formData.id_asset = idAset;
+        formData.tipe_permintaan = tipePermintaan;
 
-    const handleShowModal = (title) => {
+        console.log(formData);
+        try {
+            const response = await axios.post('http://localhost:5005/request', formData, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+    
+            console.log('Form data submitted:', response.data);
+    
+            // Handle success response
+            setShowModal(false);
+        } catch (error) {
+            console.error('There was a problem with the axios operation:', error);
+            // Handle error response
+        }
+    }
+    
+
+    const handleShowModal = (title, id_aset, tipe_permintaan) => {
+        setIdAset(id_aset);
         setModalTitle(title);
+        setTipePermintaan(tipe_permintaan);
         setShowModal(true);
     };
 
@@ -90,32 +120,41 @@ const PeminjamanAsetForm = () => {
                                     <th>Aspek Legal</th>
                                     <th>Spesifikasi</th>
                                     <th>Harga</th>
-                                    <th>Tahun Perolehan</th>
-                                    <th>Riwayat Perolehan</th>
+                                    <th>Tanggal Pembelian</th>
+                                    <th>Asal Usul Pembelian</th>
                                     <th>Kondisi</th>
                                     <th>Keterangan</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {asetData.map(aset => (
-                                    <tr key={aset.kodeAset}>
-                                        <td>{aset.kodeAset}</td>
-                                        <td>{aset.namaAset}</td>
-                                        <td>{aset.jenisAset}</td>
-                                        <td>{aset.aspekLegal}</td>
-                                        <td>{aset.spesifikasi}</td>
-                                        <td>{aset.harga}</td>
-                                        <td>{aset.tahunPerolehan}</td>
-                                        <td>{aset.riwayatPerolehan}</td>
-                                        <td>{aset.kondisi}</td>
-                                        <td>{aset.keterangan}</td>
-                                        <td>
-                                            <Button variant="warning" className="me-2" onClick={() => handleShowModal('Ajukan Aset')}>Ajukan</Button>
-                                            <Button variant="success" onClick={() => handleShowModal('Pinjam Aset')}>Pinjam</Button>
-                                        </td>
+                                {asetData.length > 0 ? (
+                                    asetData
+                                    .filter(aset => aset.status_ketersediaan === "Tersedia")
+                                    .map(aset => (
+                                        <tr key={aset.id}>
+                                            <td>{aset.kode_asset}</td>
+                                            <td>{aset.nama_asset}</td>
+                                            <td>{aset.jenis_asset}</td>
+                                            <td>{aset.aspek_legal}</td>
+                                            <td>{aset.spesifikasi}</td>
+                                            <td>{aset.harga}</td>
+                                            <td>{new Date(aset.tanggal_pembelian).toLocaleDateString()}</td>
+                                            <td>{aset.asal_usul_pembelian}</td>
+                                            <td>{aset.kondisi_asset}</td>
+                                            <td>{aset.status_ketersediaan}</td>
+                                            <td className="text-center">
+                                                <Button variant="warning" className="mb-1" onClick={() => handleShowModal('Ajukan Aset', aset.id, 'Pengajuan')}>Ajukan</Button>
+                                                <Button variant="success" className="mt-1" onClick={() => handleShowModal('Pinjam Aset', aset.id, 'Peminjaman')}>Pinjam</Button>
+                                            </td>
+                                        
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="12" className="text-center">Tidak ada data aset</td>
                                     </tr>
-                                ))}
+                                )}
                             </tbody>
                         </Table>
                     </Container>
@@ -125,22 +164,22 @@ const PeminjamanAsetForm = () => {
                         </Modal.Header>
                         <Modal.Body>
                             <Form onSubmit={handleSubmit}>
-                                <Form.Group controlId="namaStaf" className="mb-3">
+                                <Form.Group controlId="nama_pengguna" className="mb-3">
                                     <Form.Label>Nama Staf</Form.Label>
                                     <Form.Control
                                         type="text"
-                                        name="namaStaf"
-                                        value={formData.namaStaf}
+                                        name="nama_pengguna"
+                                        value={formData.nama_pengguna}
                                         onChange={handleChange}
                                         placeholder="Masukkan Nama Staf"
                                     />
                                 </Form.Group>
-                                <Form.Group controlId="departemenDivisi" className="mb-3">
+                                <Form.Group controlId="lokasi_pengguna" className="mb-3">
                                     <Form.Label>Departemen/Divisi</Form.Label>
                                     <Form.Control
                                         type="text"
-                                        name="departemenDivisi"
-                                        value={formData.departemenDivisi}
+                                        name="lokasi_pengguna"
+                                        value={formData.lokasi_pengguna}
                                         onChange={handleChange}
                                         placeholder="Masukkan Departemen/Divisi"
                                     />

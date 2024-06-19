@@ -12,10 +12,12 @@ export const addPermintaan = async (req, res) => {
                     id_asset: req.body.id_asset,
                     tipe_permintaan: req.body.tipe_permintaan,
                     status: "Belum Dikonfirmasi",
-                    tanggal_permintaan: new Date(req.body.tanggal_permintaan).toISOString(),
-                    keterangan: req.body.keterangan,
-                    nama_calon_pengguna: req.body.nama_calon_pengguna,
-                    calon_lokasi_pengguna: req.body.calon_lokasi_pengguna,
+                    tanggal_permintaan: new Date().toISOString(),
+                    keterangan: '-',
+                    nama_pengguna: req.body.nama_pengguna,
+                    lokasi_pengguna: req.body.lokasi_pengguna,
+                    nama_calon_pengguna: '-',
+                    calon_lokasi_pengguna: '-',
                     ekspedisi: null,
                     estimasi: null,
                     lokasi_mutasi: null,
@@ -115,14 +117,67 @@ export const confirmPermintaan = async (req, res) => {
     
     if(req.body.status === "Diterima"){
         //update ketersediaan asset
-        const asset = await prisma.asset.update({
+        const permintaan = await prisma.permintaan.findUnique({
             where: {
-                id: req.body.id_asset,
-            },
-            data: {
-                status_ketersediaan: "Telah Digunakan",
-            },
-        });
+                id: permintaanId,
+            }
+        })
+
+        if(permintaan.tipe_permintaan == "Peminjaman"){
+            const asset = await prisma.asset.update({
+                where: {
+                    id: req.body.id_asset,
+                },
+                data: {
+                    status_ketersediaan: "Telah Digunakan",
+                },
+            });
+        }
+        else{
+            const asset = await prisma.asset.update({
+                where: {
+                    id: req.body.id_asset,
+                },
+                data: {
+                    status_ketersediaan: "Telah Dimutasi",
+                },
+            });
+
+            const assets = await prisma.asset.findMany({
+                where: {
+                  nama_asset: asset.nama_asset,
+                  NOT: {
+                    status_ketersediaan: "Telah Dimutasi"
+                    }
+                }
+              });
+
+            const totalRecords = assets.length + 1;
+            
+            let totalPrice = assets.reduce((sum, asset) => sum + asset.harga, 0);
+            totalPrice = totalPrice + asset.harga;
+            
+            const afterTotalRecords = totalRecords-1;
+            const afterTotalPrice = totalPrice - asset.harga;
+              
+            const mutasi = await prisma.mutasi.create({
+                data: {
+                  kode_aset: asset.kode_asset,
+                  nama_aset: asset.nama_asset,
+                  kode_register: asset.kode_register,
+                  jenis_asset: asset.jenis_asset,
+                  jumlah_awal: totalRecords,
+                  harga_awal: totalPrice,
+                  perubahan_jumlah: 1,
+                  perubahan_harga: asset.harga,
+                  jumlah_akhir: afterTotalRecords,
+                  harga_akhir: afterTotalPrice,
+                  keterangan: req.body.keterangan,
+                },
+            });
+
+        }
+        
 
     }
         res.status(200).json({ msg: 'Permintaan berhasil dikonfirmasi', data: response });

@@ -122,7 +122,7 @@ const Laporan = () => {
                                                 <th className="text-center">Jumlah Harga</th>
                                                 <th className="text-center">Berkurang Jumlah Aset</th>
                                                 <th className="text-center">Jumlah Harga</th>
-                                                <th className="text-center">Bertambah Jumlah Aset</th>
+                                                <th className="text-center">Jumlah Aset</th>
                                                 <th className="text-center">Jumlah Harga</th>
                                             </tr>
                                         </thead>

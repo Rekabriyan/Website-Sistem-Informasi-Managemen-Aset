@@ -2,6 +2,17 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+
+export const getAllRekapitulasi = async (req, res) => {
+    try {
+        const response = await prisma.mutasi.findMany();
+        
+        res.status(200).json({ data: response });
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
+}
+
 //add laporan
 export const addLaporan = async (req, res) => {
     try {

@@ -53,6 +53,8 @@ model permintaan {
   status                    String
   tanggal_permintaan        DateTime
   keterangan                String
+  nama_pengguna             String
+  lokasi_pengguna           String
   nama_calon_pengguna       String
   calon_lokasi_pengguna     String  
   ekspedisi                 String?
@@ -76,4 +78,19 @@ model laporan {
   user                      User       @relation(fields: [id_user], references: [id])  // FK ke User
 
   @@index([id_user])
+}
+
+model mutasi {
+  id                        Int        @id @default(autoincrement())
+  kode_aset                 String
+  nama_aset                 String
+  kode_register             Int
+  jenis_asset               String
+  jumlah_awal               Int
+  harga_awal                Int
+  perubahan_jumlah          Int
+  perubahan_harga           Int
+  jumlah_akhir              Int
+  harga_akhir               Int
+  keterangan                String?
 }
