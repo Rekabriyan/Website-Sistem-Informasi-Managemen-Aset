@@ -31,21 +31,31 @@ export const addPermintaan = async (req, res) => {
 }
 
 //kirim permintaan mutasi Luar perusahaan
-export const addMutasiLuar = async (req, res) => {
+export const addMutasi = async (req, res) => {
     try {
+        const asset = await prisma.asset.findUnique({
+            where: {
+                kode_asset: req.body.kode_asset, // Pastikan ID yang diterima adalah tipe data yang sesuai dengan yang digunakan dalam database
+            },
+        });
+
+        console.log(asset);
+
         const response = await prisma.permintaan.create({
             data: {
                     id_user: req.body.id_user,
-                    id_asset: req.body.id_asset,
+                    id_asset: asset.id,
                     tipe_permintaan: req.body.tipe_permintaan,
                     status: "Belum Dikonfirmasi",
-                    tanggal_permintaan: new Date(req.body.tanggal_permintaan).toISOString(),
-                    keterangan: req.body.keterangan,
+                    tanggal_permintaan: new Date().toISOString(),
+                    keterangan: '-',
+                    nama_pengguna: req.body.nama_pengguna,
+                    lokasi_pengguna: req.body.lokasi_pengguna,
                     nama_calon_pengguna: req.body.nama_calon_pengguna,
                     calon_lokasi_pengguna: req.body.calon_lokasi_pengguna,
                     ekspedisi: req.body.ekspedisi,
                     estimasi: req.body.estimasi,
-                    lokasi_mutasi: req.body.lokasi_mutasi,
+                    lokasi_mutasi: null,
                     approved_by: "Belum disetujui"
             },
         });
@@ -269,7 +279,10 @@ export const getAllMutasi = async (req, res) => {
     try {
         const response = await prisma.permintaan.findMany({
             where: {
-                tipe_permintaan: "Mutasi",
+                OR: [
+                    { tipe_permintaan: "Dalam Perusahaan" },
+                    { tipe_permintaan: "Luar Perusahaan" },
+                ],
             },include: {
                 asset: true,
             },
