@@ -32,6 +32,7 @@ const LoginForm = () => {
         console.log(response.data);
         Cookies.set('username', response.data.username, { expires: 1 });
         Cookies.set('role', response.data.role, { expires: 1 }); 
+        Cookies.set('userid', response.data.userid, { expires: 1 }); 
 
         if(response.data.role == "general affair"){
           navigate('/report');
