@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import '../../global.css';
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -9,15 +10,15 @@ const Sidebar = () => {
   };
 
   const sidebarClassName = isSidebarOpen
-    ? "navbar-nav bg-gradient-dark sidebar sidebar-dark accordion toggled"
-    : "navbar-nav bg-gradient-dark sidebar sidebar-dark accordion ";
+    ? "navbar-nav custom-bg-orange sidebar sidebar-dark accordion toggled"
+    : "navbar-nav custom-bg-orange sidebar sidebar-dark accordion ";
 
   return (
     <>
       <ul className={sidebarClassName} id="accordionSidebar">
         <a className="sidebar-brand d-flex align-items-center justify-content-center">
           <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-window-restore"></i>
+            <img src="logoHariff.png" alt=""></img>
           </div>
           <div className="sidebar-brand-text mx-3">ASSET-SAPI</div>
         </a>
@@ -31,16 +32,9 @@ const Sidebar = () => {
         <hr className="sidebar-divider" />
         <div className="sidebar-heading"></div>
         <li className="nav-item">
-          <a
-            className="nav-link collapsed"
-            href="#"
-            data-toggle="collapse"
-            data-target="#collapseTwo"
-            aria-expanded="true"
-            aria-controls="collapseTwo"
-          >
+          <a className="nav-link" href="/manageAsset">
             <i className="fas fa-fw fa-wallet"></i>
-            <span>ListAsset</span>
+            <span>Pengajuan & Peminjaman</span>
           </a>
           <div
             id="collapseTwo"
@@ -48,56 +42,43 @@ const Sidebar = () => {
             aria-labelledby="headingTwo"
             data-parent="#accordionSidebar"
           >
-            <div className="bg-white py-2 collapse-inner rounded">
-              <a className="collapse-item" href="/assets">
-                Lihat Aset
-              </a>
-              <a className="collapse-item" href="/manageAsset">
-                Manage Aset
-              </a>
-            </div>
+            
           </div>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="/budgeting">
+          <a className="nav-link" href="/mutasi">
             <i className="fas fa-fw fa-tachometer-alt"></i>
-            <span>Permintaan</span>
+            <span>Mutasi</span>
           </a>
-        </li>
-        <li className="nav-item">
-          <a
-            className="nav-link collapsed"
-            href="#"
-            data-toggle="collapse"
-            data-target="#collapseUtilities"
-            aria-expanded="true"
-            aria-controls="collapseUtilities"
-          >
-            <i className="fas fa-fw fa-donate"></i>
-            <span>Cashflow</span>
-          </a>
-          <div
-            id="collapseUtilities"
-            className="collapse"
-            aria-labelledby="headingUtilities"
-            data-parent="#accordionSidebar"
-          >
-            <div className="bg-white py-2 collapse-inner rounded">
-              <Link to="/income" className="collapse-item">
-                Income
-              </Link>
-              <Link to="/outcome" className="collapse-item">
-                Outcome
-              </Link>
-            </div>
-          </div>
         </li>
         <hr className="sidebar-divider" />
         <li className="nav-item">
-          <Link className="nav-link" to="/recap">
+          <a 
+            className="nav-link collapsed"
+            href="#"
+            data-toggle="collapse"
+            data-target="#collapseTwo"
+            aria-expanded="true"
+            aria-controls="collapseTwo"
+            >
             <i className="fas fa-fw fa-receipt"></i>
-            <span>Rekapitulasi</span>
-          </Link>
+            <span>Laporan</span>
+          </a>
+          <div
+            id="collapseTwo"
+            className="collapse"
+            aria-labelledby="headingTwo"
+            data-parent="#accordionSidebar"
+          >
+            <div className="custom-bg-orange py-2 collapse-inner rounded">
+              <a className="collapse-item text-white custom-hover" href="/laporan">
+                Laporan
+              </a>
+              <a className="collapse-item text-white custom-hover" href="/permintaan-laporan-aset">
+                Pemintaan Laporan
+              </a>
+            </div>
+          </div>
         </li>
         <hr className="sidebar-divider d-md-block" />
         <div className="text-center d-md-inline">

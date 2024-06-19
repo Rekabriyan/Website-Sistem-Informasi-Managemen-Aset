@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Sidebar from "../components/DashboardGA/Sidebar";
-import Navbar from "../components/DashboardGA/Navbar";
+import Sidebar from "./Sidebar";
+import Navbar from "./Navbar";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
