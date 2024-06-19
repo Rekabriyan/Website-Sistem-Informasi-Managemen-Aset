@@ -1,37 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from "../../components/DashboardGA/Navbar";
 import Sidebar from '../../components/DashboardGA/Sidebar';
 import axios from 'axios';
-import { useEffect } from 'react';
 
 const Laporan = () => {
     const [selectedReport, setSelectedReport] = useState("Buku Inventaris");
     const [allAssets, setAllAssets] = useState([]);
     const [rekapMutasi, setRekapMutasi] = useState([]);
 
-
     useEffect(() => {
         loadAsset();
         loadRekapMutasi();
-      }, []);
-
+    }, []);
 
     const loadAsset = async () => {
         try {
-          const result = await axios.get(`http://localhost:5005/assets`);
-          setAllAssets(result.data.data);
+            const result = await axios.get('http://localhost:5005/assets');
+            setAllAssets(result.data.data);
         } catch (error) {
-          console.error("Error loading asset data:", error);
+            console.error("Error loading asset data:", error);
         }
-      }; 
+    };
 
     const loadRekapMutasi = async () => {
         try {
-            const result = await axios.get(`http://localhost:5005/requests/mutasi-diterima`);
+            const result = await axios.get('http://localhost:5005/laporan');
             setRekapMutasi(result.data.data);
         } catch (error) {
-            console.error("Error loading asset data:", error);
+            console.error("Error loading rekap mutasi data:", error);
         }
     };
 
@@ -81,27 +78,25 @@ const Laporan = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {
-                                                allAssets.map((asset, index) => (
-                                                    <tr key={index}>
-                                                        <td className='text-center'>{index + 1}</td>
-                                                        <td>{asset.kode_asset}</td>
-                                                        <td>{asset.kode_register}</td>
-                                                        <td>{asset.nama_asset}</td>
-                                                        <td>{asset.merk}</td>
-                                                        <td>-</td>
-                                                        <td>-</td>
-                                                        <td>{asset.asal_usul_pembelian}</td>
-                                                        <td>{asset.tanggal_pembelian}</td>
-                                                        <td>Buah</td>
-                                                        <td className='text-center'>{asset.kondisi_asset}</td>
-                                                        <td className='text-center'>{asset.kondisi_rr}</td>
-                                                        <td className='text-center'>{asset.kondisi_rb}</td>
-                                                        <td>{asset.harga}</td>
-                                                        <td>{asset.keterangan}</td>
-                                                    </tr>
-                                                ))
-                                            }
+                                            {allAssets.map((asset, index) => (
+                                                <tr key={index}>
+                                                    <td className='text-center'>{index + 1}</td>
+                                                    <td>{asset.kode_asset}</td>
+                                                    <td>{asset.kode_register}</td>
+                                                    <td>{asset.nama_asset}</td>
+                                                    <td>{asset.merk}</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td>{asset.asal_usul_pembelian}</td>
+                                                    <td>{asset.tanggal_pembelian}</td>
+                                                    <td>Buah</td>
+                                                    <td className='text-center'>{asset.kondisi_asset}</td>
+                                                    <td className='text-center'>{asset.kondisi_rr}</td>
+                                                    <td className='text-center'>{asset.kondisi_rb}</td>
+                                                    <td>{asset.harga}</td>
+                                                    <td>{asset.keterangan}</td>
+                                                </tr>
+                                            ))}
                                         </tbody>
                                     </table>
                                 ) : (
@@ -120,31 +115,28 @@ const Laporan = () => {
                                             <tr>
                                                 <th className="text-center">Jumlah Aset</th>
                                                 <th className="text-center">Jumlah Harga</th>
-                                                <th className="text-center">Berkurang Jumlah Aset</th>
-                                                <th className="text-center">Jumlah Harga</th>
+                                                <th className="text-center">Perubahan Jumlah</th>
+                                                <th className="text-center">Perubahan Harga</th>
                                                 <th className="text-center">Jumlah Aset</th>
                                                 <th className="text-center">Jumlah Harga</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {
-                                                rekapMutasi.map((rekap, index) => (
-                                                    <tr key={index}>
-                                                        <td className='text-center'>{index + 1}</td>
-                                                        <td>{rekap.asset.kode_asset}</td>
-                                                        <td>{rekap.asset.nama_asset}</td>
-                                                        <td>{rekap.asset.kode_register}</td>
-                                                        <td className='text-center'>{rekap.jumlah_aset_awal}</td>
-                                                        <td>{rekap.jumlah_harga_awal}</td>
-                                                        <td className='text-center'>{rekap.berkurang_jumlah_aset}</td>
-                                                        <td>{rekap.berkurang_jumlah_harga}</td>
-                                                        <td className='text-center'>{rekap.bertambah_jumlah_aset}</td>
-                                                        <td>{rekap.bertambah_jumlah_harga}</td>
-                                                        <td>{rekap.keterangan}</td>
-                                                    </tr>
-                                                ))
-                                            
-                                            }
+                                            {rekapMutasi.map((rekap, index) => (
+                                                <tr key={index}>
+                                                    <td className='text-center'>{index + 1}</td>
+                                                    <td>{rekap.kode_aset}</td>
+                                                    <td>{rekap.nama_aset}</td>
+                                                    <td className='text-center'>{rekap.kode_register}</td>
+                                                    <td className='text-center'>{rekap.jumlah_awal}</td>
+                                                    <td>{rekap.harga_awal}</td>
+                                                    <td className='text-center'>{rekap.perubahan_jumlah}</td>
+                                                    <td>{rekap.perubahan_harga}</td>
+                                                    <td className='text-center'>{rekap.jumlah_akhir}</td>
+                                                    <td>{rekap.harga_akhir}</td>
+                                                    <td>{rekap.keterangan || '-'}</td>
+                                                </tr>
+                                            ))}
                                         </tbody>
                                     </table>
                                 )}
