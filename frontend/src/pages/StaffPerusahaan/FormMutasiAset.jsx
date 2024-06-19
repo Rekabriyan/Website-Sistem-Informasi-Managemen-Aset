@@ -17,8 +17,8 @@ const MutasiAsetForm = () => {
     lokasi_pengguna: '',
     nama_calon_pengguna: '',
     calon_lokasi_pengguna: '',
-    ekspedisi:'',
-    estimasi:''
+    ekspedisi: '',
+    estimasi: ''
   });
 
   const navigate = useNavigate();
@@ -37,6 +37,8 @@ const MutasiAsetForm = () => {
     
     if(formData.tipe_permintaan === "Dalam Perusahaan"){
       formData.calon_lokasi_pengguna = '-';
+      formData.ekspedisi = null;
+      formData.estimasi = null;
     }else{
       formData.estimasi = parseInt(formData.estimasi);
     }

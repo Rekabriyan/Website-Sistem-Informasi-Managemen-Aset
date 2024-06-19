@@ -133,7 +133,7 @@ const PermintaanMutasi = () => {
                         <td>{item.asset.jenis_asset}</td>
                         <td>{item.asset.jumlah_asset}</td>
                         <td>{item.nama_calon_pengguna}</td>
-                        <td>{item.calon_lokasi_pengguna}</td>
+                        <td>{item.lokasi_pengguna}</td>
                         <td>{new Date(item.tanggal_permintaan).toLocaleDateString()}</td>
                         <td>{item.status}</td>
                         <td>
