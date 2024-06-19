@@ -24,7 +24,7 @@ const Sidebar = () => {
         </a>
         <hr className="sidebar-divider my-0" />
         <li className="nav-item">
-          <a className="nav-link" href="/report">
+          <a className="nav-link" href="/dashboard-sp">
             <i className="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span>
           </a>
@@ -32,7 +32,7 @@ const Sidebar = () => {
         <hr className="sidebar-divider" />
         <div className="sidebar-heading"></div>
         <li className="nav-item">
-          <a className="nav-link" href="/manageAsset">
+          <a className="nav-link" href="/daftar-aset">
             <i className="fas fa-fw fa-wallet"></i>
             <span>Pengajuan & Peminjaman</span>
           </a>
