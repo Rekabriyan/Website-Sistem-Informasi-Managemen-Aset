@@ -25,7 +25,7 @@ const PeminjamanAsetForm = () => {
 
     useEffect(() => {
         // Fetch data from API endpoint
-        axios.get('http://localhost:5005/assets') // Ganti dengan URL endpoint Anda
+        axios.get('http://localhost:5005/assets/available') // Ganti dengan URL endpoint Anda
             .then(response => {
                 if (response.data && Array.isArray(response.data.data)) {
                     setAsetData(response.data.data);

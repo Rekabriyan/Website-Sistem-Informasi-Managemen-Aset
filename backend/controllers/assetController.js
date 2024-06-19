@@ -45,6 +45,20 @@ export const getAssets = async (req, res) => {
     }
 };
 
+//get all available assets
+export const getAvailableAssets = async (req, res) => {
+    try {
+        const response = await prisma.asset.findMany({
+            where: {
+                status_ketersediaan: 'Tersedia',
+            }
+        });
+        res.status(200).json({ data: response });
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
+};
+
 //get asset by name
 export const getAssetbyname = async (req, res) => {
     try {
