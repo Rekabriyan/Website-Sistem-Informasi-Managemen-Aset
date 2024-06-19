@@ -92,7 +92,7 @@ const PermintaanMutasi = () => {
           <div id='content'>
             <Navbar />
             <div className="container-fluid mt-4">
-              <h1 className="mb-4">Permintaan Aset</h1>
+              <h1 className="mb-4">Permintaan Mutasi</h1>
               <div className="d-flex mb-3">
                 <InputGroup className="me-3">
                   <Form.Control

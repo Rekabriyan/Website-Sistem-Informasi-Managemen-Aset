@@ -11,14 +11,14 @@ const Sidebar = () => {
 
   const sidebarClassName = isSidebarOpen
     ? "navbar-nav custom-bg-orange sidebar sidebar-dark accordion toggled"
-    : "navbar-nav custom-bg-orange sidebar sidebar-dark accordion ";
+    : "navbar-nav custom-bg-orange sidebar sidebar-dark accordion";
 
   return (
     <>
       <ul className={sidebarClassName} id="accordionSidebar">
         <a className="sidebar-brand d-flex align-items-center justify-content-center">
-          <div class="sidebar-brand-icon rotate-n-15">
-            <img src="logoHariff.png" alt=""></img>
+          <div className="sidebar-brand-icon rotate-n-15">
+            <img src="logoHariff.png" alt="logo"></img>
           </div>
           <div className="sidebar-brand-text mx-3">ASSET-SAPI</div>
         </a>
@@ -36,14 +36,6 @@ const Sidebar = () => {
             <i className="fas fa-fw fa-wallet"></i>
             <span>Pengajuan & Peminjaman</span>
           </a>
-          <div
-            id="collapseTwo"
-            className="collapse"
-            aria-labelledby="headingTwo"
-            data-parent="#accordionSidebar"
-          >
-            
-          </div>
         </li>
         <li className="nav-item">
           <a className="nav-link" href="/mutasi">
@@ -53,32 +45,10 @@ const Sidebar = () => {
         </li>
         <hr className="sidebar-divider" />
         <li className="nav-item">
-          <a 
-            className="nav-link collapsed"
-            href="#"
-            data-toggle="collapse"
-            data-target="#collapseTwo"
-            aria-expanded="true"
-            aria-controls="collapseTwo"
-            >
+          <a className="nav-link" href="/minta-laporan">
             <i className="fas fa-fw fa-receipt"></i>
             <span>Laporan</span>
           </a>
-          <div
-            id="collapseTwo"
-            className="collapse"
-            aria-labelledby="headingTwo"
-            data-parent="#accordionSidebar"
-          >
-            <div className="custom-bg-orange py-2 collapse-inner rounded">
-              <a className="collapse-item text-white custom-hover" href="/laporan">
-                Laporan
-              </a>
-              <a className="collapse-item text-white custom-hover" href="/permintaan-laporan-aset">
-                Pemintaan Laporan
-              </a>
-            </div>
-          </div>
         </li>
         <hr className="sidebar-divider d-md-block" />
         <div className="text-center d-md-inline">
