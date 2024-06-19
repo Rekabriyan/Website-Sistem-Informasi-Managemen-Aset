@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import logoHariff from '../components/assets/logoHariff.png'
 
 const LoginForm = () => {
   const navigate = useNavigate(); 
@@ -65,7 +66,7 @@ const LoginForm = () => {
       <div className="card shadow-lg p-4" style={{ width: '400px' }}>
         <div className="card-body">
           <div className="text-center mb-4">
-            <img src="assets\logoHariff.png" alt="Hariff" style={{ width: '100px', height: 'auto' }} />
+            <img src={logoHariff} alt="Hariff" style={{ width: '100px', height: 'auto' }} />
             <h1 className="h4 text-gray-900 mt-3 font-weight-bold">Login Page</h1>
           </div>
           <form onSubmit={handleSubmit}>
