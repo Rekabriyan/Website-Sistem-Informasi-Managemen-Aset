@@ -84,7 +84,7 @@ const Report = () => {
                 </Card>
               </Col>
               <Col>
-                <Card className="text-center card-hover" onClick={() => navigate("/pengajuan-aset")}>
+                <Card className="text-center card-hover" onClick={() => navigate("/pengajuan-permintaan")}>
                   <Card.Body>
                     <h4>1</h4>
                     <p>Pengajuan Permintaan</p>

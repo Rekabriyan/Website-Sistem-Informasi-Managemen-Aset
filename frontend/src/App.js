@@ -36,12 +36,12 @@ function App() {
           <Route path="/peminjaman-aset" element={<PeminjamanAset />} />
           <Route path="/permintaan-mutasi" element={<PermintaanMutasi />} />
           <Route path="/dashboard-sp" element={<DashboardSP />} />
-          <Route path="/pengajuan-aset" element={<DashboardSP />} />
+          <Route path="/pengajuan-aset" element={<PengajuanAset />} />
           <Route path="/mutasi" element={<FormMutasiAset />} />
           <Route path="/peminjaman" element={<FormPeminjaman />} />
           <Route path="/daftar-aset" element={<AsetListSP />} />
           <Route path="/minta-laporan" element={<MintaLaporan />} />
-          <Route path="/pengajuan-aset" element={<PengajuanAset />} />
+          <Route path="/mutasi-aset" element={<PengajuanAset />} />
         </Routes>
       </Router>
     </div>

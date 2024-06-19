@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from 'react-router-dom';
 import NavbarSP from "../../components/DashboardSP/NavbarSP";
 import SidebarSP from "../../components/DashboardSP/SidebarSP";
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
@@ -15,6 +16,8 @@ const MutasiAsetForm = () => {
     ekspedisi: '',
     estimasiWaktu: '',
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,7 +44,7 @@ const MutasiAsetForm = () => {
                 <h1 className="text-center">Formulir Mutasi Aset</h1>
               </Col>
               <Col xs="auto">
-                <Button variant="dark">Pengajuan saya</Button>
+                <Button variant="dark" onClick={() => navigate('/pengajuan-aset')}>Pengajuan saya</Button>
               </Col>
             </Row>
             <Row className="justify-content-center">
