@@ -395,10 +395,10 @@ const AssetRecord = () => {
                   <th>RB</th>
                   <th>Aset</th>
                   <th>Harga</th>
-                  <th>Berkurang Aset</th>
-                  <th>Berkurang Harga</th>
-                  <th>Bertambah Aset</th>
-                  <th>Bertambah Harga</th>
+                  <th>Aset</th>
+                  <th>Harga</th>
+                  <th>Aset</th>
+                  <th>Harga</th>
                 </tr>
               </thead>
               <tbody>
