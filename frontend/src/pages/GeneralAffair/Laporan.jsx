@@ -5,6 +5,9 @@ import Sidebar from "../../components/DashboardGA/Sidebar";
 import axios from "axios";
 
 const Laporan = () => {
+  const formatToIDR = (number) => {
+    return "Rp" + number.toLocaleString("id-ID");
+  };
   const [selectedReport, setSelectedReport] = useState("Buku Inventaris");
   const [allAssets, setAllAssets] = useState([]);
   const [rekapMutasi, setRekapMutasi] = useState([]);
@@ -103,15 +106,15 @@ const Laporan = () => {
                             <td>-</td>
                             <td>-</td>
                             <td>{asset.asal_usul_pembelian}</td>
-                            <td>{asset.tanggal_pembelian}</td>
+                            <td>{new Date(asset.tanggal_pembelian).toLocaleDateString()}</td>
                             <td>Buah</td>
                             <td className="text-center">
                               {asset.kondisi_asset}
                             </td>
                             <td className="text-center">{asset.kondisi_rr}</td>
                             <td className="text-center">{asset.kondisi_rb}</td>
-                            <td>{asset.harga}</td>
-                            <td>{asset.keterangan}</td>
+                            <td>{asset.harga ? formatToIDR(asset.harga) : formatToIDR(0)}</td>
+                            <td>{asset.pengguna_asset}</td>
                           </tr>
                         ))}
                     </tbody>
@@ -152,13 +155,13 @@ const Laporan = () => {
                           <td>{rekap.nama_aset}</td>
                           <td className="text-center">{rekap.kode_register}</td>
                           <td className="text-center">{rekap.jumlah_awal}</td>
-                          <td>{rekap.harga_awal}</td>
+                          <td>{rekap.harga_awal ? formatToIDR(rekap.harga_awal) : formatToIDR(0)}</td>
                           <td className="text-center">
                             {rekap.perubahan_jumlah}
                           </td>
-                          <td>{rekap.perubahan_harga}</td>
+                          <td>{rekap.perubahan_harga ? formatToIDR(rekap.perubahan_harga) : formatToIDR(0)}</td>
                           <td className="text-center">{rekap.jumlah_akhir}</td>
-                          <td>{rekap.harga_akhir}</td>
+                          <td>{rekap.harga_akhir ? formatToIDR(rekap.harga_akhir) : formatToIDR(0)}</td>
                           <td>{rekap.asset.pengguna_asset || "-"}</td>
                         </tr>
                       ))}

@@ -5,6 +5,9 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 const ManageAsset = () => {
+  const formatToIDR = (number) => {
+    return "Rp" + number.toLocaleString("id-ID");
+  };
   const [allAsset, setAllAsset] = useState([]);
   const [newAsset, setNewAsset] = useState({
     kode: "",
@@ -23,7 +26,7 @@ const ManageAsset = () => {
     merk: "-",
     pengguna_asset: "",
     role: "general affair",
-    kode_register: 10
+    kode_register: 10,
   });
 
   const [editAsset, setEditAsset] = useState({
@@ -44,7 +47,7 @@ const ManageAsset = () => {
     merk: "-",
     pengguna_asset: "",
     role: "general affair",
-    kode_register: 10
+    kode_register: 10,
   });
 
   const [deletesAsset, setDeletesAsset] = useState({
@@ -108,7 +111,7 @@ const ManageAsset = () => {
         merk: "-",
         pengguna_asset: "",
         role: "general affair",
-        kode_register: 10
+        kode_register: 10,
       });
     } catch (error) {
       console.error("Error adding asset:", error);
@@ -142,16 +145,20 @@ const ManageAsset = () => {
         jumlah: parseInt(editAsset.jumlah_asset),
       };
 
-      if(updatedAsset.status_ketersediaan === "Tersedia"){
+      if (updatedAsset.status_ketersediaan === "Tersedia") {
         updatedAsset.nama_pengguna = "-";
         updatedAsset.lokasi = "-";
       }
-      
+
       console.log(updatedAsset);
 
-      const response = await axios.put(`http://localhost:5005/assets/${id}`, updatedAsset, {
-        validateStatus: false,
-      });
+      const response = await axios.put(
+        `http://localhost:5005/assets/${id}`,
+        updatedAsset,
+        {
+          validateStatus: false,
+        }
+      );
 
       if (response.status === 200) {
         Swal.fire({
@@ -225,7 +232,7 @@ const ManageAsset = () => {
                 <div className="table-responsive mt-3">
                   <table className="table table-striped table-bordered">
                     <thead className="thead-dark">
-                      <tr className='text-center'>
+                      <tr className="text-center">
                         <th scope="col">Kode Aset</th>
                         <th scope="col">Nama Aset</th>
                         <th scope="col">Aspek Legal</th>
@@ -245,14 +252,33 @@ const ManageAsset = () => {
                           <td>{asset.nama_asset}</td>
                           <td>{asset.aspek_legal}</td>
                           <td>{asset.spesifikasi}</td>
-                          <td>{asset.harga}</td>
-                          <td>{new Date(asset.tanggal_pembelian).getFullYear()}</td>
+                          <td>{asset.harga ? formatToIDR(asset.harga) : formatToIDR(0)}</td>
+                          <td>
+                            {new Date(asset.tanggal_pembelian).getFullYear()}
+                          </td>
                           <td>{asset.asal_usul_pembelian}</td>
                           <td>{asset.kondisi_asset}</td>
                           <td>{asset.status_ketersediaan}</td>
                           <td>
-                            <button className="btn btn-warning btn-sm m-1 fw-bold" data-toggle="modal" data-target="#editassetmodal" onClick={() => handleEdit(asset)}>Edit</button>
-                            <button className="btn btn-danger btn-sm fw-bold" data-id={asset.kode_asset} data-toggle="modal" data-target="#deleteincomemodal" onClick={() => handleDeleteOnClick(asset.kode_asset)}>Delete</button>
+                            <button
+                              className="btn btn-warning btn-sm m-1 fw-bold"
+                              data-toggle="modal"
+                              data-target="#editassetmodal"
+                              onClick={() => handleEdit(asset)}
+                            >
+                              Edit
+                            </button>
+                            <button
+                              className="btn btn-danger btn-sm fw-bold"
+                              data-id={asset.kode_asset}
+                              data-toggle="modal"
+                              data-target="#deleteincomemodal"
+                              onClick={() =>
+                                handleDeleteOnClick(asset.kode_asset)
+                              }
+                            >
+                              Delete
+                            </button>
                           </td>
                         </tr>
                       ))}
@@ -330,8 +356,12 @@ const ManageAsset = () => {
                     <option value="Lahan Tanah">Lahan Tanah</option>
                     <option value="Bangunan">Bangunan</option>
                     <option value="Mesin Peralatan">Mesin Peralatan</option>
-                    <option value="Teknologi Informasi">Teknologi Informasi</option>
-                    <option value="Kontruksi Dalam Proses Pengerjaan">Kontruksi Dalam Proses Pengerjaan</option>
+                    <option value="Teknologi Informasi">
+                      Teknologi Informasi
+                    </option>
+                    <option value="Kontruksi Dalam Proses Pengerjaan">
+                      Kontruksi Dalam Proses Pengerjaan
+                    </option>
                     <option value="Lainnya">Lainnya</option>
                   </select>
                 </div>
@@ -388,7 +418,9 @@ const ManageAsset = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="asal_usul_pembelian">Asal Usul Pembelian</label>
+                  <label htmlFor="asal_usul_pembelian">
+                    Asal Usul Pembelian
+                  </label>
                   <input
                     type="text"
                     className="form-control"
@@ -414,7 +446,9 @@ const ManageAsset = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="status_ketersediaan">Status Ketersediaan</label>
+                  <label htmlFor="status_ketersediaan">
+                    Status Ketersediaan
+                  </label>
                   <select
                     className="form-control"
                     id="status_ketersediaan"
@@ -457,7 +491,13 @@ const ManageAsset = () => {
                     </div>
                   </>
                 )}
-                <button type="button" className="btn btn-secondary mr-2" data-dismiss="modal">Kembali</button>
+                <button
+                  type="button"
+                  className="btn btn-secondary mr-2"
+                  data-dismiss="modal"
+                >
+                  Kembali
+                </button>
                 <button type="submit" className="btn btn-primary">
                   Tambah Data Asset
                 </button>
@@ -533,8 +573,12 @@ const ManageAsset = () => {
                     <option value="Lahan Tanah">Lahan Tanah</option>
                     <option value="Bangunan">Bangunan</option>
                     <option value="Mesin Peralatan">Mesin Peralatan</option>
-                    <option value="Teknologi Informasi">Teknologi Informasi</option>
-                    <option value="Kontruksi Dalam Proses Pengerjaan">Kontruksi Dalam Proses Pengerjaan</option>
+                    <option value="Teknologi Informasi">
+                      Teknologi Informasi
+                    </option>
+                    <option value="Kontruksi Dalam Proses Pengerjaan">
+                      Kontruksi Dalam Proses Pengerjaan
+                    </option>
                     <option value="Lainnya">Lainnya</option>
                   </select>
                 </div>
@@ -591,7 +635,9 @@ const ManageAsset = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="asal_usul_pembelian">Asal Usul Pembelian</label>
+                  <label htmlFor="asal_usul_pembelian">
+                    Asal Usul Pembelian
+                  </label>
                   <input
                     type="text"
                     className="form-control"
@@ -617,7 +663,9 @@ const ManageAsset = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="status_ketersediaan">Status Ketersediaan</label>
+                  <label htmlFor="status_ketersediaan">
+                    Status Ketersediaan
+                  </label>
                   <select
                     className="form-control"
                     id="status_ketersediaan"
@@ -660,8 +708,18 @@ const ManageAsset = () => {
                     </div>
                   </>
                 )}
-                <button type="button" className="btn btn-secondary mr-2" data-dismiss="modal">Kembali</button>
-                <button type="submit" className="btn btn-primary" onClick={(e) => updateAsset(e, editAsset.id)}>
+                <button
+                  type="button"
+                  className="btn btn-secondary mr-2"
+                  data-dismiss="modal"
+                >
+                  Kembali
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  onClick={(e) => updateAsset(e, editAsset.id)}
+                >
                   Update Data Asset
                 </button>
               </form>
@@ -698,8 +756,20 @@ const ManageAsset = () => {
               <p>Apakah Anda yakin ingin menghapus asset ini?</p>
             </div>
             <div className="modal-footer">
-              <button className="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-              <button className="btn btn-danger" type="button" onClick={() => deleteAsset(deletesAsset.kode_asset)}>Hapus</button>
+              <button
+                className="btn btn-secondary"
+                type="button"
+                data-dismiss="modal"
+              >
+                Batal
+              </button>
+              <button
+                className="btn btn-danger"
+                type="button"
+                onClick={() => deleteAsset(deletesAsset.kode_asset)}
+              >
+                Hapus
+              </button>
             </div>
           </div>
         </div>
