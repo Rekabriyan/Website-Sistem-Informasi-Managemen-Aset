@@ -344,7 +344,10 @@ export const getAllPengajuan = async (req, res) => {
     try {
         const response = await prisma.permintaan.findMany({
             where: {
-                tipe_permintaan: "Pengajuan",
+                OR: [
+                    { tipe_permintaan: "Pengajuan" },
+                    { tipe_permintaan: "Pengajuan Baru" } // Tambahkan kondisi lain sesuai kebutuhan
+                  ]
             },include: {
                 asset: true,
             },
