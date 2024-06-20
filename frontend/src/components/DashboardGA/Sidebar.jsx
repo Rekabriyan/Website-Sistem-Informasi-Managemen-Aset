@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import '../../global.css';
+import logoHariff from '../assets/logoHariff.png'
 
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -17,8 +18,8 @@ const Sidebar = () => {
     <>
       <ul className={sidebarClassName} id="accordionSidebar">
         <a className="sidebar-brand d-flex align-items-center justify-content-center">
-          <div class="sidebar-brand-icon rotate-n-15">
-            <img src="logoHariff.png" alt=""></img>
+          <div className="sidebar-brand-icon">
+            <img src={logoHariff} alt="logo" width={55}></img>
           </div>
           <div className="sidebar-brand-text mx-3">ASSET-SAPI</div>
         </a>
