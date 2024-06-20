@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import Navbar from "../../components/DashboardGA/Navbar";
-import Sidebar from '../../components/DashboardGA/Sidebar';
-import { Table } from 'react-bootstrap';
-import axios from 'axios';
+import Sidebar from "../../components/DashboardGA/Sidebar";
+import { Table } from "react-bootstrap";
+import axios from "axios";
 
 const AssetRecord = () => {
   const [selectedOption, setSelectedOption] = useState("Kartu Inventaris Aset");
@@ -21,7 +21,9 @@ const AssetRecord = () => {
 
   const loadAsset = async () => {
     try {
-      const result = await axios.get(`http://localhost:5005/assets/all/${selectedTab}`);
+      const result = await axios.get(
+        `http://localhost:5005/assets/all/${selectedTab}`
+      );
       setAllAsset(result.data.data);
       console.log(result.data.data);
     } catch (error) {
@@ -39,7 +41,6 @@ const AssetRecord = () => {
     }
   };
 
-
   const handleSelectChange = (event) => {
     setSelectedOption(event.target.value);
   };
@@ -55,10 +56,19 @@ const AssetRecord = () => {
   const renderTabs = () => {
     return (
       <div className="d-flex justify-content-between mb-3">
-        {["Lahan Tanah", "Bangunan", "Mesin Peralatan", "Teknologi Informasi", "Tetap Lainnya", "Konstruksi Dalam Proses Pengerjaan"].map((tab) => (
+        {[
+          "Lahan Tanah",
+          "Bangunan",
+          "Mesin Peralatan",
+          "Teknologi Informasi",
+          "Tetap Lainnya",
+          "Konstruksi Dalam Proses Pengerjaan",
+        ].map((tab) => (
           <div key={tab} className="p-2 bd-highlight">
             <button
-              className={`btn ${selectedTab === tab ? 'btn-primary' : 'btn-outline-primary'}`}
+              className={`btn ${
+                selectedTab === tab ? "btn-primary" : "btn-outline-primary"
+              }`}
               onClick={() => handleTabChange(tab)}
             >
               KIA {tab}
@@ -78,21 +88,21 @@ const AssetRecord = () => {
           <Table striped bordered hover>
             <thead className="thead-dark">
               <tr className="text-center">
-                <th rowSpan='3'>No</th>
-                <th rowSpan='3'>Jenis Aset/Nama Aset</th>
+                <th rowSpan="3">No</th>
+                <th rowSpan="3">Jenis Aset/Nama Aset</th>
                 <th colSpan="2">Nomor</th>
-                <th rowSpan='3'>Luas (m²)</th>
-                <th rowSpan='3'>Tahun</th>
-                <th rowSpan='3'>Letak/Alamat</th>
+                <th rowSpan="3">Luas (m²)</th>
+                <th rowSpan="3">Tahun</th>
+                <th rowSpan="3">Letak/Alamat</th>
                 <th colSpan="3">Status Tanah</th>
-                <th rowSpan='3'>Penggunaan</th>
-                <th rowSpan='3'>Asal Usul</th>
-                <th rowSpan='3'>Harga</th>
-                <th rowSpan='3'>Ket</th>
+                <th rowSpan="3">Penggunaan</th>
+                <th rowSpan="3">Asal Usul</th>
+                <th rowSpan="3">Harga</th>
+                <th rowSpan="3">Ket</th>
               </tr>
               <tr className="text-center">
-                <th rowSpan='2'>Kode Aset</th>
-                <th rowSpan='2'>Register</th>
+                <th rowSpan="2">Kode Aset</th>
+                <th rowSpan="2">Register</th>
                 <th rowSpan="2">Hak</th>
                 <th colSpan="2">Sertifikat</th>
               </tr>
@@ -103,7 +113,9 @@ const AssetRecord = () => {
             </thead>
             <tbody>
               {allAsset
-                .filter(asset => asset.status_ketersediaan !== 'Telah Dimutasi')
+                .filter(
+                  (asset) => asset.status_ketersediaan !== "Telah Dimutasi"
+                )
                 .map((asset, index) => (
                   <tr key={asset.kode_asset} className="text-center">
                     <td>{index + 1}</td>
@@ -113,7 +125,9 @@ const AssetRecord = () => {
                     <td>{asset.luas}</td>
                     <td>{new Date(asset.tahun).getFullYear()}</td>
                     <td>{asset.lokasi}</td>
-                    <td>{new Date(asset.tanggal_sertifikat).toLocaleDateString()}</td>
+                    <td>
+                      {new Date(asset.tanggal_sertifikat).toLocaleDateString()}
+                    </td>
                     <td>{asset.nomor_sertifikat}</td>
                     <td>{asset.penggunaan}</td>
                     <td>{asset.asal_usul}</td>
@@ -157,26 +171,32 @@ const AssetRecord = () => {
               </tr>
             </thead>
             <tbody>
-              {allAsset.map((asset, index) => (
-                <tr key={asset.kode_asset} className="text-center">
-                  <td>{index + 1}</td>
-                  <td>{asset.nama_asset}</td>
-                  <td>{asset.kode_asset}</td>
-                  <td>{asset.kode_register}</td>
-                  <td>{asset.kondisi_asset}</td>
-                  <td>{asset.bertingkat}</td>
-                  <td>{asset.beton}</td>
-                  <td>{asset.luas_lantai}</td>
-                  <td>{asset.lokasi}</td>
-                  <td>{new Date(asset.tanggal_dokumen).toLocaleDateString()}</td>
-                  <td>{asset.nomor_dokumen}</td>
-                  <td>{asset.luas}</td>
-                  <td>{asset.status_aset}</td>
-                  <td>{asset.asal_usul}</td>
-                  <td>{asset.harga}</td>
-                  <td>{asset.keterangan}</td>
-                </tr>
-              ))}
+              {allAsset
+                .filter(
+                  (asset) => asset.status_ketersediaan !== "Telah Dimutasi"
+                )
+                .map((asset, index) => (
+                  <tr key={asset.kode_asset} className="text-center">
+                    <td>{index + 1}</td>
+                    <td>{asset.nama_asset}</td>
+                    <td>{asset.kode_asset}</td>
+                    <td>{asset.kode_register}</td>
+                    <td>{asset.kondisi_asset}</td>
+                    <td>{asset.bertingkat}</td>
+                    <td>{asset.beton}</td>
+                    <td>{asset.luas_lantai}</td>
+                    <td>{asset.lokasi}</td>
+                    <td>
+                      {new Date(asset.tanggal_dokumen).toLocaleDateString()}
+                    </td>
+                    <td>{asset.nomor_dokumen}</td>
+                    <td>{asset.luas}</td>
+                    <td>{asset.status_aset}</td>
+                    <td>{asset.asal_usul}</td>
+                    <td>{asset.harga}</td>
+                    <td>{asset.keterangan}</td>
+                  </tr>
+                ))}
             </tbody>
           </Table>
         </>
@@ -214,26 +234,30 @@ const AssetRecord = () => {
               </tr>
             </thead>
             <tbody>
-              {allAsset.map((asset, index) => (
-                <tr key={asset.kode_asset} className="text-center">
-                  <td>{index + 1}</td>
-                  <td>{asset.nama_asset}</td>
-                  <td>{asset.kode_asset}</td>
-                  <td>{asset.kode_register}</td>
-                  <td>{asset.judul_pencipta}</td>
-                  <td>{asset.spesifikasi}</td>
-                  <td>{asset.asal_daerah}</td>
-                  <td>{asset.pencipta}</td>
-                  <td>{asset.bahan}</td>
-                  <td>{asset.jenis}</td>
-                  <td>{asset.ukuran}</td>
-                  <td>{asset.jumlah}</td>
-                  <td>{new Date(asset.tahun_pembelian).getFullYear()}</td>
-                  <td>{asset.asal_usul}</td>
-                  <td>{asset.harga}</td>
-                  <td>{asset.keterangan}</td>
-                </tr>
-              ))}
+              {allAsset
+                .filter(
+                  (asset) => asset.status_ketersediaan !== "Telah Dimutasi"
+                )
+                .map((asset, index) => (
+                  <tr key={asset.kode_asset} className="text-center">
+                    <td>{index + 1}</td>
+                    <td>{asset.nama_asset}</td>
+                    <td>{asset.kode_asset}</td>
+                    <td>{asset.kode_register}</td>
+                    <td>{asset.judul_pencipta}</td>
+                    <td>{asset.spesifikasi}</td>
+                    <td>{asset.asal_daerah}</td>
+                    <td>{asset.pencipta}</td>
+                    <td>{asset.bahan}</td>
+                    <td>{asset.jenis}</td>
+                    <td>{asset.ukuran}</td>
+                    <td>{asset.jumlah}</td>
+                    <td>{new Date(asset.tahun_pembelian).getFullYear()}</td>
+                    <td>{asset.asal_usul}</td>
+                    <td>{asset.harga}</td>
+                    <td>{asset.keterangan}</td>
+                  </tr>
+                ))}
             </tbody>
           </Table>
         </>
@@ -266,24 +290,32 @@ const AssetRecord = () => {
               </tr>
             </thead>
             <tbody>
-              {allAsset.map((asset, index) => (
-                <tr key={asset.kode_asset} className="text-center">
-                  <td>{index + 1}</td>
-                  <td>{asset.kode_asset}</td>
-                  <td>{asset.nama_asset}</td>
-                  <td>{asset.kode_register}</td>
-                  <td>{asset.kondisi_asset === "Baik" ? "B" : ""}</td>
-                  <td>{asset.kondisi_asset === "Rusak Ringan" ? "RR" : ""}</td>
-                  <td>{asset.kondisi_asset === "Rusak Berat" ? "RB" : ""}</td>
-                  <td>{asset.merk}</td>
-                  <td>{asset.ukuran}</td>
-                  <td>{asset.bahan}</td>
-                  <td>{new Date(asset.tanggal_pembelian).toLocaleDateString()}</td>
-                  <td>{asset.asal_usul_pembelian}</td>
-                  <td>{asset.harga}</td>
-                  <td>{asset.keterangan}</td>
-                </tr>
-              ))}
+              {allAsset
+                .filter(
+                  (asset) => asset.status_ketersediaan !== "Telah Dimutasi"
+                )
+                .map((asset, index) => (
+                  <tr key={asset.kode_asset} className="text-center">
+                    <td>{index + 1}</td>
+                    <td>{asset.kode_asset}</td>
+                    <td>{asset.nama_asset}</td>
+                    <td>{asset.kode_register}</td>
+                    <td>{asset.kondisi_asset === "Baik" ? "B" : ""}</td>
+                    <td>
+                      {asset.kondisi_asset === "Rusak Ringan" ? "RR" : ""}
+                    </td>
+                    <td>{asset.kondisi_asset === "Rusak Berat" ? "RB" : ""}</td>
+                    <td>{asset.merk}</td>
+                    <td>{asset.ukuran}</td>
+                    <td>{asset.bahan}</td>
+                    <td>
+                      {new Date(asset.tanggal_pembelian).toLocaleDateString()}
+                    </td>
+                    <td>{asset.asal_usul_pembelian}</td>
+                    <td>{asset.harga}</td>
+                    <td>{asset.keterangan}</td>
+                  </tr>
+                ))}
             </tbody>
           </Table>
         </>
@@ -303,17 +335,21 @@ const AssetRecord = () => {
       case "Kartu Inventaris Ruangan":
         return (
           <>
-          <div className="d-flex justify-content-between mb-3">
-          <select className="form-select w-auto" value={selectDepartemen} onChange={handleDepartemenChange}>
-              <option value="General Affair">General Affair</option>
-              <option value="Human Resource">Human Resource</option>
-          </select>
-          </div>
-          
+            <div className="d-flex justify-content-between mb-3">
+              <select
+                className="form-select w-auto"
+                value={selectDepartemen}
+                onChange={handleDepartemenChange}
+              >
+                <option value="General Affair">General Affair</option>
+                <option value="Human Resource">Human Resource</option>
+              </select>
+            </div>
+
             <h3 className="mb-4 text-center">Kartu Inventaris Ruangan</h3>
             <Table striped bordered hover>
               <thead className="thead-dark">
-                <tr className='text-center'>
+                <tr className="text-center">
                   <th rowSpan="2">No</th>
                   <th rowSpan="2">Jenis Aset/ Nama Aset</th>
                   <th rowSpan="2">Spesifikasi</th>
@@ -328,7 +364,7 @@ const AssetRecord = () => {
                   <th rowSpan="2">Keterangan Mutasi dll</th>
                   <th rowSpan="2">Ket</th>
                 </tr>
-                <tr className='text-center'>
+                <tr className="text-center">
                   <th>Baik (B)</th>
                   <th>Rusak Ringan (RR)</th>
                   <th>Rusak Berat (RB)</th>
@@ -336,7 +372,11 @@ const AssetRecord = () => {
               </thead>
               <tbody>
                 {semuaAsset
-                  .filter(asset => asset.status_ketersediaan !== 'Telah Dimutasi' && asset.lokasi === selectDepartemen)
+                  .filter(
+                    (asset) =>
+                      asset.status_ketersediaan !== "Telah Dimutasi" &&
+                      asset.lokasi === selectDepartemen
+                  )
                   .map((asset, index) => (
                     <tr key={asset.kode_asset} className="text-center">
                       <td>{index + 1}</td>
@@ -349,15 +389,17 @@ const AssetRecord = () => {
                       <td>{new Date(asset.tanggal_pembelian).getFullYear()}</td>
                       <td>{asset.jumlah_asset}</td>
                       <td>{asset.harga}</td>
-                      {
-                        asset.kondisi_asset === "Baik" ? <td>B</td> : <td></td>
-                      }
-                      {
-                        asset.kondisi_asset === "Rusak Ringan" ? <td>RR</td> : <td></td>
-                      }
-                      {
-                        asset.kondisi_asset === "Rusak Berat" ? <td>RB</td> : <td></td>
-                      }
+                      {asset.kondisi_asset === "Baik" ? <td>B</td> : <td></td>}
+                      {asset.kondisi_asset === "Rusak Ringan" ? (
+                        <td>RR</td>
+                      ) : (
+                        <td></td>
+                      )}
+                      {asset.kondisi_asset === "Rusak Berat" ? (
+                        <td>RB</td>
+                      ) : (
+                        <td></td>
+                      )}
                       <td> - </td>
                       <td>{asset.keterangan}</td>
                     </tr>
@@ -401,9 +443,7 @@ const AssetRecord = () => {
                   <th>Harga</th>
                 </tr>
               </thead>
-              <tbody>
-                {/* Isi data di sini */}
-              </tbody>
+              <tbody>{/* Isi data di sini */}</tbody>
             </Table>
           </>
         );
@@ -438,9 +478,7 @@ const AssetRecord = () => {
                   <th>Peminjam</th>
                 </tr>
               </thead>
-              <tbody>
-                {/* Isi data di sini */}
-              </tbody>
+              <tbody>{/* Isi data di sini */}</tbody>
             </Table>
           </>
         );
@@ -451,19 +489,29 @@ const AssetRecord = () => {
 
   return (
     <>
-      <div id="wrapper" className='d-flex'>
+      <div id="wrapper" className="d-flex">
         <Sidebar />
-        <div id="content-wrapper" className='d-flex flex-column w-100'>
+        <div id="content-wrapper" className="d-flex flex-column w-100">
           <div id="content">
             <Navbar />
-            <div className='container-fluid mt-4'>
-              <h1 className='mb-4'>Pencatatan Aset</h1>
+            <div className="container-fluid mt-4">
+              <h1 className="mb-4">Pencatatan Aset</h1>
               <div className="d-flex align-items-center mb-3">
-                <select className="form-select w-auto" value={selectedOption} onChange={handleSelectChange}>
-                  <option value="Kartu Inventaris Aset">Kartu Inventaris Aset</option>
-                  <option value="Kartu Inventaris Ruangan">Kartu Inventaris Ruangan</option>
+                <select
+                  className="form-select w-auto"
+                  value={selectedOption}
+                  onChange={handleSelectChange}
+                >
+                  <option value="Kartu Inventaris Aset">
+                    Kartu Inventaris Aset
+                  </option>
+                  <option value="Kartu Inventaris Ruangan">
+                    Kartu Inventaris Ruangan
+                  </option>
                   <option value="Daftar Mutasi Aset">Daftar Mutasi Aset</option>
-                  <option value="Daftar Peminjaman Aset">Daftar Peminjaman Aset</option>
+                  <option value="Daftar Peminjaman Aset">
+                    Daftar Peminjaman Aset
+                  </option>
                 </select>
               </div>
               <div className="table-responsive mt-3">
