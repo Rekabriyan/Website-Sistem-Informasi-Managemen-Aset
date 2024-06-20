@@ -178,7 +178,7 @@ const AssetList = () => {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Add New Asset</Modal.Title>
+          <Modal.Title>Tambahkan Aset Baru</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
