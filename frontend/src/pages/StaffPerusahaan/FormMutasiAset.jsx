@@ -6,6 +6,7 @@ import NavbarSP from "../../components/DashboardSP/NavbarSP";
 import SidebarSP from "../../components/DashboardSP/SidebarSP";
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import Cookies from 'js-cookie';
+import Swal from "sweetalert2";
 // import './YourCSSFileName.css'; // Add the correct path to your CSS file
 
 const MutasiAsetForm = () => {
@@ -30,7 +31,6 @@ const MutasiAsetForm = () => {
       [name]: value,
     });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -48,13 +48,31 @@ const MutasiAsetForm = () => {
         const response = await axios.post('http://localhost:5005/requests/mutasi', formData, {
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            validateStatus: false,
         });
 
         console.log('Form data submitted:', response.data);
+        if (response.status === 200) {
+          Swal.fire({
+            icon: "success",
+            title: "Mutasi Aset Ditambahkan!",
+            text: response.data.msg,
+          }).then(() => {
+            // Close modal
+            window.$("#addassetmodal").modal("hide");
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Mutasi Aset Failed!",
+            text: response.data.msg,
+          });
+        }
     } catch (error) {
         console.error('There was a problem with the axios operation:', error);
         // Handle error response
+        
     }
 }
 
