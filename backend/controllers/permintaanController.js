@@ -278,7 +278,7 @@ export const confirmPermintaan = async (req, res) => {
                 });
 
                 const totalRecords = assets.length - 1;
-                const totalPrice = assets.reduce((sum, asset) => sum + asset.harga, 0) + asset.harga;
+                const totalPrice = assets.reduce((sum, asset) => sum + asset.harga, 0) - asset.harga;
 
                 const afterTotalRecords = totalRecords + 1;
                 const afterTotalPrice = totalPrice + asset.harga;
