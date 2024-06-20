@@ -120,6 +120,8 @@ const PermintaanMutasi = () => {
                       <th>Jumlah Aset</th>
                       <th>Pengajuan Oleh</th>
                       <th>Departemen</th>
+                      <th>Penerima</th>
+                      <th>Tujuan</th>
                       <th>Tanggal Pengajuan</th>
                       <th>Status Pengajuan</th>
                       <th>Action</th>
@@ -132,8 +134,10 @@ const PermintaanMutasi = () => {
                         <td>{item.asset.nama_asset}</td>
                         <td>{item.asset.jenis_asset}</td>
                         <td>{item.asset.jumlah_asset}</td>
-                        <td>{item.nama_calon_pengguna}</td>
+                        <td>{item.nama_pengguna}</td>
                         <td>{item.lokasi_pengguna}</td>
+                        <td>{item.nama_calon_pengguna}</td>
+                        <td>{item.calon_lokasi_pengguna}</td>
                         <td>{new Date(item.tanggal_permintaan).toLocaleDateString()}</td>
                         <td>{item.status}</td>
                         <td>
