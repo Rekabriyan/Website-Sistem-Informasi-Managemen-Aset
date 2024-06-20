@@ -18,7 +18,7 @@ const Sidebar = () => {
     <>
       <ul className={sidebarClassName} id="accordionSidebar">
         <a className="sidebar-brand d-flex align-items-center justify-content-center">
-          <div className="sidebar-brand-icon rotate-n-15">
+          <div className="sidebar-brand-icon">
             <img src={logoHariff} alt="logo" width={55}></img>
           </div>
           <div className="sidebar-brand-text mx-3">ASSET-SAPI</div>
