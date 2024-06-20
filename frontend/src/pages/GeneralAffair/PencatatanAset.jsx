@@ -135,17 +135,16 @@ const AssetRecord = () => {
                     <td>{asset.nama_asset}</td>
                     <td>{asset.kode_asset}</td>
                     <td>{asset.kode_register}</td>
-                    <td>{asset.luas}</td>
-                    <td>{new Date(asset.tahun).getFullYear()}</td>
+                    <td>{asset.spesifikasi}</td>
+                    <td>{new Date(asset.tanggal_pembelian).getFullYear()}</td>
                     <td>{asset.lokasi}</td>
-                    <td>
-                      {new Date(asset.tanggal_sertifikat).toLocaleDateString()}
-                    </td>
-                    <td>{asset.nomor_sertifikat}</td>
-                    <td>{asset.penggunaan}</td>
-                    <td>{asset.asal_usul}</td>
+                    <td>-</td>
+                    <td>{new Date(asset.tanggal_pembelian).toLocaleDateString()}</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>{asset.asal_usul_pembelian}</td>
                     <td>{asset.harga}</td>
-                    <td>{asset.keterangan}</td>
+                    <td>{asset.pengguna_asset}</td>
                   </tr>
                 ))}
             </tbody>
@@ -195,19 +194,17 @@ const AssetRecord = () => {
                     <td>{asset.kode_asset}</td>
                     <td>{asset.kode_register}</td>
                     <td>{asset.kondisi_asset}</td>
-                    <td>{asset.bertingkat}</td>
-                    <td>{asset.beton}</td>
-                    <td>{asset.luas_lantai}</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
                     <td>{asset.lokasi}</td>
-                    <td>
-                      {new Date(asset.tanggal_dokumen).toLocaleDateString()}
-                    </td>
-                    <td>{asset.nomor_dokumen}</td>
-                    <td>{asset.luas}</td>
-                    <td>{asset.status_aset}</td>
-                    <td>{asset.asal_usul}</td>
+                    <td>{new Date(asset.tanggal_pembelian).toLocaleDateString()}</td>
+                    <td>-</td>
+                    <td>{asset.spesifikasi}</td>
+                    <td>-</td>
+                    <td>{asset.asal_usul_pembelian}</td>
                     <td>{asset.harga}</td>
-                    <td>{asset.keterangan}</td>
+                    <td>{asset.pengguna_asset}</td>
                   </tr>
                 ))}
             </tbody>
@@ -268,7 +265,7 @@ const AssetRecord = () => {
                     <td>{new Date(asset.tahun_pembelian).getFullYear()}</td>
                     <td>{asset.asal_usul}</td>
                     <td>{asset.harga}</td>
-                    <td>{asset.keterangan}</td>
+                    <td>{asset.pengguna_aset} / {asset.lokasi}</td>
                   </tr>
                 ))}
             </tbody>
@@ -318,15 +315,15 @@ const AssetRecord = () => {
                       {asset.kondisi_asset === "Rusak Ringan" ? "RR" : ""}
                     </td>
                     <td>{asset.kondisi_asset === "Rusak Berat" ? "RB" : ""}</td>
-                    <td>{asset.merk}</td>
-                    <td>{asset.ukuran}</td>
-                    <td>{asset.bahan}</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
                     <td>
                       {new Date(asset.tanggal_pembelian).toLocaleDateString()}
                     </td>
                     <td>{asset.asal_usul_pembelian}</td>
                     <td>{asset.harga}</td>
-                    <td>{asset.keterangan}</td>
+                    <td>{asset.pengguna_aset}</td>
                   </tr>
                 ))}
             </tbody>
@@ -502,7 +499,7 @@ const AssetRecord = () => {
                     <td>-</td>
                     <td>-</td>
                     <td>-</td>
-                    <td>{peminjaman.tanggal_pembelian}</td>
+                    <td>{new Date(peminjaman.tanggal_pembelian).getFullYear()}</td>
                     <td>{peminjaman.kode_register}</td>
                     <td>{peminjaman.kondisi_asset === "Baik" ? "B" : ""}</td>
                     <td>
@@ -510,8 +507,12 @@ const AssetRecord = () => {
                     </td>
                     <td>{peminjaman.kondisi_asset === "Rusak Berat" ? "RB" : ""}</td>
                     <td>
-                      {new Date(peminjaman.tanggal_pembelian).toLocaleDateString()}
+                      {new Date(peminjaman.tanggal_peminjaman).toLocaleDateString()}
                     </td>
+                    <td>{peminjaman.nama_peminjam}</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
                   </tr>
                 ))}
               </tbody>

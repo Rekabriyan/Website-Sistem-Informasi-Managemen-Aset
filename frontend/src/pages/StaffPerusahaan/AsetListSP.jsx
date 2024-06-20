@@ -13,13 +13,15 @@ import {
   Modal,
 } from "react-bootstrap";
 import Cookies from "js-cookie";
+import Swal from "sweetalert2";
+
 // import './YourCSSFileName.css'; // Add the correct path to your CSS file
 
 const PeminjamanAsetForm = () => {
   const [formData, setFormData] = useState({
     id_user: parseInt(Cookies.get("userid")),
     id_asset: "",
-    tipe_permintaan: "",
+    tipe_permintaan: "Lahan Tanah",
     nama_pengguna: "",
     lokasi_pengguna: "",
     nama_asset: "",
@@ -71,7 +73,7 @@ const PeminjamanAsetForm = () => {
 
     formData.id_asset = idAset;
     formData.tipe_permintaan = tipePermintaan;
-
+    
     console.log(formData);
     try {
       const response = await axios.post(
@@ -81,9 +83,26 @@ const PeminjamanAsetForm = () => {
           headers: {
             "Content-Type": "application/json",
           },
+          validateStatus: false,
         }
       );
 
+      if (response.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "Pengajuan Berhasil!",
+          text: response.data.msg,
+        }).then(() => {
+          // Close modal
+          window.$("#addassetmodal").modal("hide");
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Pengajuan Gagal!",
+          text: response.data.msg,
+        });
+      }
       console.log("Form data submitted:", response.data);
 
       // Handle success response
