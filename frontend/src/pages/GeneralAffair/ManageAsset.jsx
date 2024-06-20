@@ -274,7 +274,7 @@ const ManageAsset = () => {
                               data-toggle="modal"
                               data-target="#deleteincomemodal"
                               onClick={() =>
-                                handleDeleteOnClick(asset.kode_asset)
+                                handleDeleteOnClick(asset.id)
                               }
                             >
                               Delete

@@ -95,7 +95,7 @@ export const deleteAsset = async (req, res) => {
     try {
         const response = await prisma.asset.delete({
             where: {
-                kode_asset: req.params.kode_asset,
+                id: parseInt(req.params.kode_asset),
             },
         });
         res.status(200).json({ msg: 'Asset deleted', data: response });
