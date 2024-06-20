@@ -7,12 +7,17 @@ import axios from 'axios';
 const AssetRecord = () => {
   const [selectedOption, setSelectedOption] = useState("Kartu Inventaris Aset");
   const [allAsset, setAllAsset] = useState([]);
+  const [semuaAsset, setSemuaAsset] = useState([]);
   const [selectedTab, setSelectedTab] = useState("Mesin Peralatan");
+  const [selectDepartemen, setSelectDepartemen] = useState("General Affair");
 
   useEffect(() => {
     loadAsset();
+    loadAllAsset();
     console.log("selectedTab:", selectedTab);
-  }, [selectedTab]);
+    console.log("selectDepartemen:", selectDepartemen);
+    console.log("semuaAsset:", semuaAsset);
+  }, [selectedTab, selectDepartemen, selectedOption]);
 
   const loadAsset = async () => {
     try {
@@ -24,12 +29,27 @@ const AssetRecord = () => {
     }
   };
 
+  const loadAllAsset = async () => {
+    try {
+      const result = await axios.get(`http://localhost:5005/assets`);
+      setSemuaAsset(result.data.data);
+      console.log(result.data.data);
+    } catch (error) {
+      console.error("Error loading asset data:", error);
+    }
+  };
+
+
   const handleSelectChange = (event) => {
     setSelectedOption(event.target.value);
   };
 
   const handleTabChange = (tab) => {
     setSelectedTab(tab);
+  };
+
+  const handleDepartemenChange = (event) => {
+    setSelectDepartemen(event.target.value);
   };
 
   const renderTabs = () => {
@@ -82,23 +102,25 @@ const AssetRecord = () => {
               </tr>
             </thead>
             <tbody>
-              {allAsset.map((asset, index) => (
-                <tr key={asset.kode_asset} className="text-center">
-                  <td>{index + 1}</td>
-                  <td>{asset.nama_asset}</td>
-                  <td>{asset.kode_asset}</td>
-                  <td>{asset.kode_register}</td>
-                  <td>{asset.luas}</td>
-                  <td>{new Date(asset.tahun).getFullYear()}</td>
-                  <td>{asset.lokasi}</td>
-                  <td>{new Date(asset.tanggal_sertifikat).toLocaleDateString()}</td>
-                  <td>{asset.nomor_sertifikat}</td>
-                  <td>{asset.penggunaan}</td>
-                  <td>{asset.asal_usul}</td>
-                  <td>{asset.harga}</td>
-                  <td>{asset.keterangan}</td>
-                </tr>
-              ))}
+              {allAsset
+                .filter(asset => asset.status_ketersediaan !== 'Telah Dimutasi')
+                .map((asset, index) => (
+                  <tr key={asset.kode_asset} className="text-center">
+                    <td>{index + 1}</td>
+                    <td>{asset.nama_asset}</td>
+                    <td>{asset.kode_asset}</td>
+                    <td>{asset.kode_register}</td>
+                    <td>{asset.luas}</td>
+                    <td>{new Date(asset.tahun).getFullYear()}</td>
+                    <td>{asset.lokasi}</td>
+                    <td>{new Date(asset.tanggal_sertifikat).toLocaleDateString()}</td>
+                    <td>{asset.nomor_sertifikat}</td>
+                    <td>{asset.penggunaan}</td>
+                    <td>{asset.asal_usul}</td>
+                    <td>{asset.harga}</td>
+                    <td>{asset.keterangan}</td>
+                  </tr>
+                ))}
             </tbody>
           </Table>
         </>
@@ -281,6 +303,13 @@ const AssetRecord = () => {
       case "Kartu Inventaris Ruangan":
         return (
           <>
+          <div className="d-flex justify-content-between mb-3">
+          <select className="form-select w-auto" value={selectDepartemen} onChange={handleDepartemenChange}>
+              <option value="General Affair">General Affair</option>
+              <option value="Human Resource">Human Resource</option>
+          </select>
+          </div>
+          
             <h3 className="mb-4 text-center">Kartu Inventaris Ruangan</h3>
             <Table striped bordered hover>
               <thead className="thead-dark">
@@ -306,7 +335,33 @@ const AssetRecord = () => {
                 </tr>
               </thead>
               <tbody>
-                {/* Isi data Kartu Inventaris Ruangan */}
+                {semuaAsset
+                  .filter(asset => asset.status_ketersediaan !== 'Telah Dimutasi' && asset.lokasi === selectDepartemen)
+                  .map((asset, index) => (
+                    <tr key={asset.kode_asset} className="text-center">
+                      <td>{index + 1}</td>
+                      <td>{asset.nama_asset}</td>
+                      <td>{asset.spesifikasi}</td>
+                      <td>{asset.aspek_legal}</td>
+                      <td> - </td>
+                      <td> - </td>
+                      <td> - </td>
+                      <td>{new Date(asset.tanggal_pembelian).getFullYear()}</td>
+                      <td>{asset.jumlah_asset}</td>
+                      <td>{asset.harga}</td>
+                      {
+                        asset.kondisi_asset === "Baik" ? <td>B</td> : <td></td>
+                      }
+                      {
+                        asset.kondisi_asset === "Rusak Ringan" ? <td>RR</td> : <td></td>
+                      }
+                      {
+                        asset.kondisi_asset === "Rusak Berat" ? <td>RB</td> : <td></td>
+                      }
+                      <td> - </td>
+                      <td>{asset.keterangan}</td>
+                    </tr>
+                  ))}
               </tbody>
             </Table>
           </>
