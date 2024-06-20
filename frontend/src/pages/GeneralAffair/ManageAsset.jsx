@@ -15,7 +15,7 @@ const ManageAsset = () => {
     spesifikasi: "",
     harga: "",
     status_ketersediaan: "Tersedia",
-    keterangan: "Tersedia",
+    keterangan: "-",
     lokasi: "",
     tanggal_pembelian: new Date().toISOString().split("T")[0],
     asal_usul_pembelian: "",
@@ -36,7 +36,7 @@ const ManageAsset = () => {
     spesifikasi: "",
     harga: 0,
     status_ketersediaan: "Tersedia",
-    keterangan: "Tersedia",
+    keterangan: "-",
     lokasi: "",
     tanggal_pembelian: new Date().toISOString().split("T")[0],
     asal_usul_pembelian: "",
@@ -100,7 +100,7 @@ const ManageAsset = () => {
         spesifikasi: "",
         harga: "",
         status_ketersediaan: "Tersedia",
-        keterangan: "Tersedia",
+        keterangan: "-",
         lokasi: "",
         tanggal_pembelian: new Date().toISOString().split("T")[0],
         asal_usul_pembelian: "",
@@ -139,8 +139,16 @@ const ManageAsset = () => {
       const updatedAsset = {
         ...editAsset,
         harga: parseInt(editAsset.harga),
-        jumlah: parseInt(editAsset.jumlah),
+        jumlah: parseInt(editAsset.jumlah_asset),
       };
+
+      if(updatedAsset.status_ketersediaan === "Tersedia"){
+        updatedAsset.nama_pengguna = "-";
+        updatedAsset.lokasi = "-";
+      }
+      
+      console.log(updatedAsset);
+
       const response = await axios.put(`http://localhost:5005/assets/${id}`, updatedAsset, {
         validateStatus: false,
       });
@@ -406,20 +414,20 @@ const ManageAsset = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="keterangan">Keterangan</label>
+                  <label htmlFor="status_ketersediaan">Status Ketersediaan</label>
                   <select
                     className="form-control"
-                    id="keterangan"
-                    name="keterangan"
-                    value={newAsset.keterangan}
+                    id="status_ketersediaan"
+                    name="status_ketersediaan"
+                    value={newAsset.status_ketersediaan}
                     onChange={handleInputChange}
                     required
                   >
                     <option value="Tersedia">Tersedia</option>
-                    <option value="Dialokasikan">Dialokasikan</option>
+                    <option value="Telah Digunakan">Dialokasikan</option>
                   </select>
                 </div>
-                {newAsset.keterangan === "Dialokasikan" && (
+                {newAsset.status_ketersediaan === "Telah Digunakan" && (
                   <>
                     <div className="form-group">
                       <label htmlFor="pengguna_asset">Nama Pengguna</label>
@@ -609,20 +617,20 @@ const ManageAsset = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="keterangan">Keterangan</label>
+                  <label htmlFor="status_ketersediaan">Status Ketersediaan</label>
                   <select
                     className="form-control"
-                    id="keterangan"
-                    name="keterangan"
-                    value={editAsset.keterangan}
+                    id="status_ketersediaan"
+                    name="status_ketersediaan"
+                    value={editAsset.status_ketersediaan}
                     onChange={handleEditInputChange}
                     required
                   >
                     <option value="Tersedia">Tersedia</option>
-                    <option value="Dialokasikan">Dialokasikan</option>
+                    <option value="Telah Digunakan">Dialokasikan</option>
                   </select>
                 </div>
-                {editAsset.keterangan === "Dialokasikan" && (
+                {editAsset.status_ketersediaan === "Telah Digunakan" && (
                   <>
                     <div className="form-group">
                       <label htmlFor="pengguna_asset">Nama Pengguna</label>
