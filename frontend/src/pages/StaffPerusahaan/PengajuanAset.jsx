@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import NavbarSP from "../../components/DashboardSP/NavbarSP";
-import SidebarSP from "../../components/DashboardSP/SidebarSP";
+import NavbarSP from '../../components/DashboardSP/NavbarSP';
+import SidebarSP from '../../components/DashboardSP/SidebarSP';
 import { Container, Row, Col, Form, Button, Table } from 'react-bootstrap';
 // import './YourCSSFileName.css'; // Add the correct path to your CSS file
 
@@ -10,6 +11,8 @@ const PengajuanAset = () => {
     search: '',
     filter: 'Semua Aset',
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,6 +25,10 @@ const PengajuanAset = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form data submitted:', formData);
+  };
+
+  const handleSerahTerimaClick = () => {
+    navigate('/pdf');
   };
 
   return (
@@ -84,7 +91,7 @@ const PengajuanAset = () => {
                   <td>20/5/2024</td>
                   <td>Diterima</td>
                   <td>
-                    <Button variant="dark">Serah Terima</Button>
+                    <Button variant="dark" onClick={handleSerahTerimaClick}>Serah Terima</Button>
                   </td>
                 </tr>
               </tbody>
