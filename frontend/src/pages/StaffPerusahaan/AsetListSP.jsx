@@ -18,6 +18,9 @@ import Swal from "sweetalert2";
 // import './YourCSSFileName.css'; // Add the correct path to your CSS file
 
 const PeminjamanAsetForm = () => {
+  const formatToIDR = (number) => {
+    return "Rp" + number.toLocaleString("id-ID");
+  };
   const [formData, setFormData] = useState({
     id_user: parseInt(Cookies.get("userid")),
     id_asset: "",
@@ -191,7 +194,7 @@ const PeminjamanAsetForm = () => {
                         <td>{aset.jenis_asset}</td>
                         <td>{aset.aspek_legal}</td>
                         <td>{aset.spesifikasi}</td>
-                        <td>{aset.harga}</td>
+                        <td>{aset.harga ? formatToIDR(aset.harga) : formatToIDR(0)}</td>
                         <td>
                           {new Date(
                             aset.tanggal_pembelian
