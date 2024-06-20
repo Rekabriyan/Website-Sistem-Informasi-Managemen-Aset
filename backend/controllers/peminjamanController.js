@@ -24,7 +24,7 @@ export const addPeminjaman = async (req, res) => {
 //get all peminjaman
 export const getPeminjaman = async (req, res) => {
     try {
-        const response = await prisma.peminjaman_asset.findMany();
+        const response = await prisma.peminjaman.findMany();
         res.status(200).json({ data: response });
     } catch (error) {
         res.status(500).json({ msg: error.message });

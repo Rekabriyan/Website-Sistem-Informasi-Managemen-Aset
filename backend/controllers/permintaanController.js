@@ -186,7 +186,7 @@ export const confirmPermintaan = async (req, res) => {
             console.log(permintaan.tipe_permintaan);
 
             if (permintaan.tipe_permintaan === "Peminjaman") {
-                await prisma.asset.update({
+                const asset = await prisma.asset.update({
                     where: {
                         id: req.body.id_asset,
                     },
@@ -196,6 +196,24 @@ export const confirmPermintaan = async (req, res) => {
                         lokasi: response.lokasi_pengguna
                     },
                 });
+
+                const peminjaman = await prisma.peminjaman.create({
+                    data: {
+                        jenis_asset: asset.jenis_asset,
+                        nama_aset: asset.nama_asset,
+                        aspek_legal: asset.aspek_legal,
+                        tanggal_pembelian: asset.tanggal_pembelian,
+                        spesifikasi: asset.spesifikasi,
+                        kode_register: asset.kode_register,
+                        kondisi_asset: asset.kondisi_asset,
+                        nama_peminjam: response.nama_pengguna,
+                        tanggal_peminjaman: new Date().toISOString(),
+                        nama_pengembali: null,
+                        tanggal_pengembalian: null,
+                        keterangan: "-"
+                    },
+                });
+                
             } else if (permintaan.tipe_permintaan === "Pengajuan") {
                 const asset = await prisma.asset.update({
                     where: {
@@ -314,8 +332,13 @@ export const confirmPermintaan = async (req, res) => {
 
                 const totalRecords = assets.length + 1;
                 let totalPrice = assets.reduce((sum, asset) => sum + asset.harga, 0);
-                totalPrice = totalPrice + asset.harga;
-
+                if(totalRecords >= 1){
+                    totalPrice = totalPrice + asset.harga;
+                }
+                else{
+                    totalPrice = asset.harga;
+                }
+                
                 const afterTotalRecords = totalRecords-1;
                 const afterTotalPrice = totalPrice - asset.harga;
 

@@ -7,6 +7,7 @@ import axios from "axios";
 const AssetRecord = () => {
   const [selectedOption, setSelectedOption] = useState("Kartu Inventaris Aset");
   const [allAsset, setAllAsset] = useState([]);
+  const [allPeminjaman, setAllPeminjaman] = useState([]);
   const [semuaAsset, setSemuaAsset] = useState([]);
   const [selectedTab, setSelectedTab] = useState("Mesin Peralatan");
   const [selectDepartemen, setSelectDepartemen] = useState("General Affair");
@@ -14,6 +15,7 @@ const AssetRecord = () => {
   useEffect(() => {
     loadAsset();
     loadAllAsset();
+    loadAllPeminjaman();
     console.log("selectedTab:", selectedTab);
     console.log("selectDepartemen:", selectDepartemen);
     console.log("semuaAsset:", semuaAsset);
@@ -36,6 +38,17 @@ const AssetRecord = () => {
       const result = await axios.get(`http://localhost:5005/assets`);
       setSemuaAsset(result.data.data);
       console.log(result.data.data);
+    } catch (error) {
+      console.error("Error loading asset data:", error);
+    }
+  };
+
+  const loadAllPeminjaman = async () => {
+    try {
+      const result = await axios.get(
+        `http://localhost:5005/peminjaman`
+      );
+      setAllPeminjaman(result.data.data);
     } catch (error) {
       console.error("Error loading asset data:", error);
     }
@@ -455,7 +468,7 @@ const AssetRecord = () => {
               <thead className="thead-dark">
                 <tr className="text-center">
                   <th rowSpan="2">No</th>
-                  <th rowSpan="2">Jenis Aset/ Nama Aset</th>
+                  <th rowSpan="2">Nama Aset / Jenis Aset</th>
                   <th rowSpan="2">Spesifikasi</th>
                   <th rowSpan="2">Aspek Legal</th>
                   <th rowSpan="2">Nomor Seri Pabrik</th>
@@ -478,7 +491,30 @@ const AssetRecord = () => {
                   <th>Peminjam</th>
                 </tr>
               </thead>
-              <tbody>{/* Isi data di sini */}</tbody>
+              <tbody>
+              {allPeminjaman
+                .map((peminjaman, index) => (
+                  <tr key={peminjaman.id} className="text-center">
+                    <td>{index + 1}</td>
+                    <td>{peminjaman.nama_aset} / {peminjaman.jenis_asset}</td>
+                    <td>{peminjaman.spesifikasi}</td>
+                    <td>{peminjaman.aspek_legal}</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>{peminjaman.tanggal_pembelian}</td>
+                    <td>{peminjaman.kode_register}</td>
+                    <td>{peminjaman.kondisi_asset === "Baik" ? "B" : ""}</td>
+                    <td>
+                      {peminjaman.kondisi_asset === "Rusak Ringan" ? "RR" : ""}
+                    </td>
+                    <td>{peminjaman.kondisi_asset === "Rusak Berat" ? "RB" : ""}</td>
+                    <td>
+                      {new Date(peminjaman.tanggal_pembelian).toLocaleDateString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
             </Table>
           </>
         );

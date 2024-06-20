@@ -94,3 +94,19 @@ model mutasi {
   harga_akhir               Int
   keterangan                String?
 }
+
+model peminjaman {
+  id                        Int        @id @default(autoincrement())
+  jenis_asset               String
+  nama_aset                 String
+  spesifikasi               String
+  aspek_legal               String
+  tanggal_pembelian         DateTime            
+  kode_register             Int
+  kondisi_asset             String
+  nama_peminjam             String
+  tanggal_peminjaman        DateTime
+  nama_pengembali           String?
+  tanggal_pengembalian      DateTime?
+  keterangan                String?
+}
