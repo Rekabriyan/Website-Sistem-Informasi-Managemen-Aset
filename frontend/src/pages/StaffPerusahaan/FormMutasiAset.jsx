@@ -36,7 +36,6 @@ const MutasiAsetForm = () => {
     
     
     if(formData.tipe_permintaan === "Dalam Perusahaan"){
-      formData.calon_lokasi_pengguna = '-';
       formData.ekspedisi = null;
       formData.estimasi = null;
     }else{
@@ -146,9 +145,7 @@ const MutasiAsetForm = () => {
                       placeholder="Masukkan Nama Calon Pengguna"
                     />
                   </Form.Group>
-                  {formData.tipe_permintaan === 'Luar Perusahaan' && (
-                    <>
-                      <Form.Group controlId="calon_lokasi_pengguna" className="mb-3">
+                  <Form.Group controlId="calon_lokasi_pengguna" className="mb-3">
                         <Form.Label>Lokasi Calon Pengguna</Form.Label>
                         <Form.Control
                           type="text"
@@ -157,7 +154,9 @@ const MutasiAsetForm = () => {
                           onChange={handleChange}
                           placeholder="Masukkan Lokasi Calon Pengguna"
                         />
-                      </Form.Group>
+                  </Form.Group>
+                  {formData.tipe_permintaan === 'Luar Perusahaan' && (
+                    <>
                       <Form.Group controlId="ekspedisi" className="mb-3">
                         <Form.Label>Pilih Ekspedisi</Form.Label>
                         <Form.Control
