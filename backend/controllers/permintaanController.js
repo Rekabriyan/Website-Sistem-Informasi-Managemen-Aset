@@ -226,33 +226,33 @@ export const confirmPermintaan = async (req, res) => {
                     },
                 });
 
-                const assets = await prisma.asset.findMany({
-                    where: {
-                        nama_asset: asset.nama_asset,
-                        NOT: {
-                            status_ketersediaan: "Telah Dimutasi",
-                        }
-                    }
-                });
+                // const assets = await prisma.asset.findMany({
+                //     where: {
+                //         nama_asset: asset.nama_asset,
+                //         NOT: {
+                //             status_ketersediaan: "Telah Dimutasi",
+                //         }
+                //     }
+                // });
 
-                const totalRecords = assets.length;
-                const totalPrice = assets.reduce((sum, asset) => sum + asset.harga, 0);
+                // const totalRecords = assets.length;
+                // const totalPrice = assets.reduce((sum, asset) => sum + asset.harga, 0);
 
-                await prisma.mutasi.create({
-                    data: {
-                        kode_aset: asset.kode_asset,
-                        nama_aset: asset.nama_asset,
-                        kode_register: asset.kode_register,
-                        jenis_asset: asset.jenis_asset,
-                        jumlah_awal: totalRecords,
-                        harga_awal: totalPrice,
-                        perubahan_jumlah: 0,
-                        perubahan_harga: 0,
-                        jumlah_akhir: totalRecords,
-                        harga_akhir: totalPrice,
-                        keterangan: req.body.keterangan,
-                    },
-                });
+                // await prisma.mutasi.create({
+                //     data: {
+                //         kode_aset: asset.kode_asset,
+                //         nama_aset: asset.nama_asset,
+                //         kode_register: asset.kode_register,
+                //         jenis_asset: asset.jenis_asset,
+                //         jumlah_awal: totalRecords,
+                //         harga_awal: totalPrice,
+                //         perubahan_jumlah: 0,
+                //         perubahan_harga: 0,
+                //         jumlah_akhir: totalRecords,
+                //         harga_akhir: totalPrice,
+                //         keterangan: req.body.keterangan,
+                //     },
+                // });
             } else if (permintaan.tipe_permintaan === "Pengajuan Baru") {
                 const asset = await prisma.asset.update({
                     where: {
