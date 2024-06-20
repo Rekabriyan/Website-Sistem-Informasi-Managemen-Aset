@@ -89,8 +89,8 @@ export const getAssetbyId = async (req, res) => {
 
 //delete asset
 export const deleteAsset = async (req, res) => {
-    const isGA = req.body.role === 'GA' ? true : false;
-    if(!isGA) return res.status(401).json({ msg: 'Unauthorized' });
+    // const isGA = req.body.role === 'general affair' ? true : false;
+    // if(!isGA) return res.status(401).json({ msg: 'Unauthorized' });
 
     try {
         const response = await prisma.asset.delete({
