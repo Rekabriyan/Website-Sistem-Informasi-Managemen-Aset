@@ -159,7 +159,7 @@ const Laporan = () => {
                           <td>{rekap.perubahan_harga}</td>
                           <td className="text-center">{rekap.jumlah_akhir}</td>
                           <td>{rekap.harga_akhir}</td>
-                          <td>{rekap.keterangan || "-"}</td>
+                          <td>{rekap.asset.pengguna_asset || "-"}</td>
                         </tr>
                       ))}
                     </tbody>

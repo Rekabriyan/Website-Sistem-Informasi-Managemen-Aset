@@ -11,11 +11,13 @@ const AssetRecord = () => {
   const [semuaAsset, setSemuaAsset] = useState([]);
   const [selectedTab, setSelectedTab] = useState("Mesin Peralatan");
   const [selectDepartemen, setSelectDepartemen] = useState("General Affair");
+  const [rekapMutasi, setRekapMutasi] = useState([]);
 
   useEffect(() => {
     loadAsset();
     loadAllAsset();
     loadAllPeminjaman();
+    loadDaftarMutasiAset();
     console.log("selectedTab:", selectedTab);
     console.log("selectDepartemen:", selectDepartemen);
     console.log("semuaAsset:", semuaAsset);
@@ -90,6 +92,15 @@ const AssetRecord = () => {
         ))}
       </div>
     );
+  };
+
+  const loadDaftarMutasiAset = async () => {
+    try {
+      const result = await axios.get("http://localhost:5005/laporan");
+      setRekapMutasi(result.data.data);
+    } catch (error) {
+      console.error("Error loading rekap mutasi data:", error);
+    }
   };
 
   const renderTable = () => {
@@ -453,7 +464,36 @@ const AssetRecord = () => {
                   <th>Harga</th>
                 </tr>
               </thead>
-              <tbody>{/* Isi data di sini */}</tbody>
+              <tbody>
+                      {rekapMutasi.map((rekap, index) => (
+                        <tr key={index}>
+                          <td className="text-center">{index + 1}</td>
+                          <td>{rekap.kode_aset}</td>
+                          <td>{rekap.nama_aset}</td>
+                          <td className="text-center">{rekap.kode_register}</td>
+                          <td className="text-center">{rekap.asset.spesifikasi}</td>
+                          <td className="text-center">-</td>
+                          <td className="text-center">{rekap.asset.aspek_legal}</td>
+                          <td>
+                            {new Date(rekap.asset.tanggal_pembelian).toLocaleDateString()}
+                          </td>
+                          <td className="text-center">{rekap.asset.asal_usul_pembelian}</td>
+                          <td>{rekap.asset.harga}</td>
+                          <td>{rekap.asset.kondisi_asset === "Baik" ? "B" : ""}</td>
+                          <td>
+                            {rekap.asset.kondisi_asset === "Rusak Ringan" ? "RR" : ""}
+                          </td>
+                          <td>{rekap.asset.kondisi_asset === "Rusak Berat" ? "RB" : ""}</td>
+                          <td className="text-center">{rekap.jumlah_awal}</td>
+                          <td className="text-center">{rekap.harga_awal}</td>
+                          <td className="text-center">{rekap.perubahan_jumlah}</td>
+                          <td className="text-center">{rekap.perubahan_harga}</td>
+                          <td className="text-center">{rekap.jumlah_akhir}</td>
+                          <td className="text-center">{rekap.harga_akhir}</td>
+                          <td className="text-center">{rekap.asset.pengguna_asset}</td>
+                        </tr>
+                      ))}
+                    </tbody>
             </Table>
           </>
         );

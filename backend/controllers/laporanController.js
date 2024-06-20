@@ -5,9 +5,27 @@ const prisma = new PrismaClient();
 
 export const getAllRekapitulasi = async (req, res) => {
     try {
-        const response = await prisma.mutasi.findMany();
+        // Mengambil semua record dari tabel mutasi
+        const mutasiRecords = await prisma.mutasi.findMany();
         
-        res.status(200).json({ data: response });
+        // Mengambil data asset untuk setiap kode_asset di mutasi
+        const detailedRecords = await Promise.all(
+            mutasiRecords.map(async (record) => {
+                const asset = await prisma.Asset.findFirst({
+                    where: {
+                        kode_asset: record.kode_aset
+                    }
+                });
+
+                // Menggabungkan informasi asset dengan record
+                return {
+                    ...record,
+                    asset: asset ? asset : { nama_aset: 'Asset not found' }
+                };
+            })
+        );
+
+        res.status(200).json({ data: detailedRecords });
     } catch (error) {
         res.status(500).json({ msg: error.message });
     }
@@ -45,3 +63,4 @@ export const deleteLaporan = async (req, res) => {
         res.status(500).json({ msg: error.message });
     }
 };
+
