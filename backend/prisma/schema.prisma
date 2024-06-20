@@ -26,7 +26,7 @@ model User {
 
 model Asset {
   id                        Int        @id @default(autoincrement())
-  kode_asset                String     @unique
+  kode_asset                String     
   nama_asset                String
   aspek_legal               String
   jenis_asset               String

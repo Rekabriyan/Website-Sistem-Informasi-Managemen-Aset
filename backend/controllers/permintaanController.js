@@ -6,26 +6,73 @@ const prisma = new PrismaClient();
 //kirim permintaan dan pengajuan
 export const addPermintaan = async (req, res) => {
     try {
-        const response = await prisma.permintaan.create({
-            data: {
-                    id_user: req.body.id_user,
-                    id_asset: req.body.id_asset,
-                    tipe_permintaan: req.body.tipe_permintaan,
-                    status: "Belum Dikonfirmasi",
-                    tanggal_permintaan: new Date().toISOString(),
-                    keterangan: '-',
-                    nama_pengguna: req.body.nama_pengguna,
-                    lokasi_pengguna: req.body.lokasi_pengguna,
-                    nama_calon_pengguna: '-',
-                    calon_lokasi_pengguna: '-',
-                    ekspedisi: null,
-                    estimasi: null,
-                    lokasi_mutasi: null,
-                    approved_by: "Belum disetujui"
-            },
-        });
+        let response;
+
+        if(req.body.id_asset == "-"){
+            const asset = await prisma.asset.create({
+                data: {
+                  kode_asset: "-",
+                  nama_asset: req.body.nama_asset,
+                  jenis_asset: req.body.jenis_asset,
+                  aspek_legal: "-", 
+                  spesifikasi: req.body.spesifikasi,
+                  harga: 0,
+                  jumlah_asset: 1, // default 1
+                  status_ketersediaan: "Sedang Diajukan", // langsung tersedia
+                  keterangan: "-",
+                  lokasi: req.body.lokasi_pengguna,
+                  tanggal_pembelian: new Date().toISOString(),
+                  asal_usul_pembelian: "-", // Riwayat Perolehan
+                  kondisi_asset: "-", // default baik
+                  kode_register: 0,
+                  merk: "-",
+                  pengguna_asset: req.body.nama_pengguna,
+                },
+              });
+
+            response = await prisma.permintaan.create({
+                data: {
+                        id_user: req.body.id_user,
+                        id_asset: asset.id,
+                        tipe_permintaan: req.body.tipe_permintaan,
+                        status: "Belum Dikonfirmasi",
+                        tanggal_permintaan: new Date().toISOString(),
+                        keterangan: '-',
+                        nama_pengguna: req.body.nama_pengguna,
+                        lokasi_pengguna: req.body.lokasi_pengguna,
+                        nama_calon_pengguna: '-',
+                        calon_lokasi_pengguna: '-',
+                        ekspedisi: null,
+                        estimasi: null,
+                        lokasi_mutasi: null,
+                        approved_by: "Belum disetujui"
+                },
+            });
+        }
+        else{
+            response = await prisma.permintaan.create({
+                data: {
+                        id_user: req.body.id_user,
+                        id_asset: req.body.id_asset,
+                        tipe_permintaan: req.body.tipe_permintaan,
+                        status: "Belum Dikonfirmasi",
+                        tanggal_permintaan: new Date().toISOString(),
+                        keterangan: '-',
+                        nama_pengguna: req.body.nama_pengguna,
+                        lokasi_pengguna: req.body.lokasi_pengguna,
+                        nama_calon_pengguna: '-',
+                        calon_lokasi_pengguna: '-',
+                        ekspedisi: null,
+                        estimasi: null,
+                        lokasi_mutasi: null,
+                        approved_by: "Belum disetujui"
+                },
+            });
+        }
+
         res.status(200).json({ msg: 'Permintaan berhasil dikirim', data: response });
     } catch (error) {
+        console.log(error.message)
         res.status(500).json({ msg: error.message });
     }
 }
@@ -319,8 +366,11 @@ export const countAllPengajuan = async (req, res) => {
 
         const pengajuan = await prisma.permintaan.count({
         where: {
-            tipe_permintaan: "Pengajuan",
-            status: "Belum Dikonfirmasi"
+            status: "Belum Dikonfirmasi",
+            OR: [
+                { tipe_permintaan: "Pengajuan" },
+                { tipe_permintaan: "Pengajuan Baru" }
+              ]
         }
         });
 

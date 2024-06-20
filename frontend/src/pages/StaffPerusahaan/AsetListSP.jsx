@@ -22,6 +22,9 @@ const PeminjamanAsetForm = () => {
     tipe_permintaan: "",
     nama_pengguna: "",
     lokasi_pengguna: "",
+    nama_asset: "",
+    jenis_asset: "",
+    spesifikasi: "",
   });
 
   const [showModal, setShowModal] = useState(false);
@@ -47,7 +50,12 @@ const PeminjamanAsetForm = () => {
       });
   }, []);
 
-  const handleShow = () => setShow(true);
+  const handleShow = (title, id_aset, tipe_permintaan) => {
+    setIdAset(id_aset);
+    setModalTitle(title);
+    setTipePermintaan(tipe_permintaan);
+    setShow(true);
+  };
   const handleClose = () => setShow(false);
 
   const handleChange = (e) => {
@@ -120,7 +128,13 @@ const PeminjamanAsetForm = () => {
                 <Button variant="primary">Cari</Button>
               </Col>
               <Col xs="auto">
-                <Button variant="success" onClick={handleShow}>
+                <Button variant="success" onClick={() =>
+                              handleShow(
+                                "Ajukan Aset",
+                                "-",
+                                "Pengajuan Baru"
+                              )
+                            }>
                   Ajukan Aset
                 </Button>
               </Col>
@@ -248,46 +262,63 @@ const PeminjamanAsetForm = () => {
           </Modal>
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-              <Modal.Title>Tambahkan Aset Baru</Modal.Title>
+              <Modal.Title>Ajukan Aset Baru</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Form onSubmit={handleSubmit}>
-                <Form.Group controlId="nama">
+                <Form.Group controlId="nama_asset">
                   <Form.Label>Nama Aset</Form.Label>
                   <Form.Control
                     type="text"
-                    name="nama"
-                    value={formData.nama}
+                    name="nama_asset"
+                    value={formData.nama_asset}
                     onChange={handleChange}
                     required
                   />
+                </Form.Group>
+                <Form.Group controlId="jenis_asset">
+                  <Form.Label>Jenis Aset</Form.Label>
+                  <Form.Control
+                    as="select"
+                    name="jenis_asset"
+                    value={formData.jenis_asset}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="Lahan Tanah">Lahan Tanah</option>
+                    <option value="Bangunan">Bangunan</option>
+                    <option value="Mesin Peralatan">Mesin Peralatan</option>
+                    <option value="Teknologi Informasi">Teknologi Informasi</option>
+                    <option value="Kontruksi Dalam Proses Pengerjaan">Kontruksi Dalam Proses Pengerjaan</option>
+                    <option value="Lainnya">Lainnya</option>
+                  </Form.Control>
                 </Form.Group>
                 <Form.Group controlId="spesifikasi">
                   <Form.Label>Spesifikasi</Form.Label>
                   <Form.Control
                     type="text"
-                    name="spefisikasi"
+                    name="spesifikasi"
                     value={formData.spesifikasi}
                     onChange={handleChange}
                     required
                   />
                 </Form.Group>
-                <Form.Group controlId="nama_staff">
-                  <Form.Label>Nama Staff</Form.Label>
+                <Form.Group controlId="nama_pengguna">
+                  <Form.Label>Nama Pengguna</Form.Label>
                   <Form.Control
                     type="text"
-                    name="nama_staff"
-                    value={formData.nama_staff}
+                    name="nama_pengguna"
+                    value={formData.nama_pengguna}
                     onChange={handleChange}
                     required
                   />
                 </Form.Group>
-                <Form.Group controlId="lokasi_staff">
-                  <Form.Label>Lokasi Staff</Form.Label>
+                <Form.Group controlId="lokasi_pengguna">
+                  <Form.Label>Lokasi Pengguna</Form.Label>
                   <Form.Control
                     type="text"
-                    name="lokasi_staff"
-                    value={formData.lokasi_staff}
+                    name="lokasi_pengguna"
+                    value={formData.lokasi_pengguna}
                     onChange={handleChange}
                     required
                   />
