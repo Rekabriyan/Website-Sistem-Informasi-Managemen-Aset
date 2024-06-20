@@ -307,3 +307,42 @@ export const getAllPengajuan = async (req, res) => {
         res.status(500).json({ msg: error.message });
     }
 }
+
+export const countAllPengajuan = async (req, res) => {
+    try {
+        const peminjaman = await prisma.permintaan.count({
+            where: {
+              tipe_permintaan: "Peminjaman",
+              status: "Belum Dikonfirmasi"
+            }
+        });
+
+        const pengajuan = await prisma.permintaan.count({
+        where: {
+            tipe_permintaan: "Pengajuan",
+            status: "Belum Dikonfirmasi"
+        }
+        });
+
+        const mutasi = await prisma.permintaan.count({
+            where: {
+              status: "Belum Dikonfirmasi",
+              OR: [
+                { tipe_permintaan: "Luar Perusahaan" },
+                { tipe_permintaan: "Dalam Perusahaan" }
+              ]
+            }
+        });
+
+        const count = {
+            peminjaman: peminjaman,
+            pengajuan: pengajuan,
+            mutasi: mutasi
+        }
+
+
+        res.status(200).json({ data: count });
+    } catch (error) {
+        res.status(500).json({ msg: error.message });
+    }
+}

@@ -15,9 +15,15 @@ const Report = () => {
   const [deletesUser, setDeletesUSer] = useState({
     id_income: 0,
   });
+  const [count, setCount] = useState({
+    peminjaman: 0,
+    pengajuan: 0,
+    mutasi: 0
+  })
   const navigate = useNavigate();
 
   useEffect(() => {
+    loadCount();
     loadUser();
   }, []);
 
@@ -26,6 +32,20 @@ const Report = () => {
       const result = await axios.get(`http://localhost:5005/users`);
       setAllUser(result.data.data);
       console.log(result.data.data);
+    } catch (error) {
+      console.error("Error loading user data:", error);
+    }
+  };
+
+  const loadCount = async () => {
+    try {
+      const result = await axios.get(`http://localhost:5005/requests/count`);
+      setCount({
+        peminjaman: result.data.data.peminjaman,
+        pengajuan: result.data.data.pengajuan,
+        mutasi: result.data.data.mutasi
+      });
+      console.log(count);
     } catch (error) {
       console.error("Error loading user data:", error);
     }
@@ -78,7 +98,7 @@ const Report = () => {
               <Col>
                 <Card className="text-center card-hover" onClick={() => navigate("/permintaan-aset")}>
                   <Card.Body>
-                    <h4>1</h4>
+                    <h4>{count.pengajuan}</h4>
                     <p>Permintaan Aset</p>
                   </Card.Body>
                 </Card>
@@ -86,7 +106,7 @@ const Report = () => {
               <Col>
                 <Card className="text-center card-hover" onClick={() => navigate("/peminjaman-aset")}>
                   <Card.Body>
-                    <h4>1</h4>
+                    <h4>{count.peminjaman}</h4>
                     <p>Peminjaman Aset</p>
                   </Card.Body>
                 </Card>
@@ -94,7 +114,7 @@ const Report = () => {
               <Col>
                 <Card className="text-center card-hover" onClick={() => navigate("/permintaan-mutasi")}>
                   <Card.Body>
-                    <h4>1</h4>
+                    <h4>{count.mutasi}</h4>
                     <p>Permintaan Mutasi</p>
                   </Card.Body>
                 </Card>
