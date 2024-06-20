@@ -47,26 +47,26 @@ const BasicDocument = () => {
           </View>
 
           <View style={styles.section}>
-            <Text>Pada hari ini Rabu, tanggal 14, bulan Mei tahun 2024 bersama surat ini:</Text>
+            <Text>Pada hari ini "day", tanggal "date", bulan "month" tahun "year" bersama surat ini:</Text>
           </View>
 
           <View style={styles.section}>
             <Text style={styles.label}>Nama:</Text>
-            <Text>Rudi</Text>
+            <Text>"name"</Text>
             <Text style={styles.label}>Departemen:</Text>
-            <Text>General Affair</Text>
+            <Text>"departemen"</Text>
           </View>
 
           <View style={styles.section}>
-            <Text>Menyerahkan 1 aset berupa Asus Zenbook No. Aset 03.02.74.01</Text>
+            <Text>Menyerahkan 1 aset berupa "aset" No. Aset "no aset"</Text>
           </View>
 
           <View style={styles.section}>
             <Text>Dan diterima oleh:</Text>
             <Text style={styles.label}>Nama:</Text>
-            <Text>Bagus</Text>
+            <Text>"nama penerima"</Text>
             <Text style={styles.label}>Departemen:</Text>
-            <Text>Keuangan</Text>
+            <Text>"departemen"</Text>
           </View>
 
           <View style={styles.section}>
@@ -77,11 +77,11 @@ const BasicDocument = () => {
             <View style={styles.signature}>
               <Text>Bandung,</Text>
               <Text>Diserahkan oleh,</Text>
-              <Text>Rudi</Text>
+              <Text>"nama penyerah"</Text>
             </View>
             <View style={styles.signature}>
               <Text>Diterima oleh,</Text>
-              <Text>Bagus</Text>
+              <Text>"nama penerima"</Text>
             </View>
           </View>
         </Page>
